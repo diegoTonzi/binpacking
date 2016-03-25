@@ -7,9 +7,9 @@ import java.util.List;
 import br.com.diegotonzi.binpacking.restrictions.Restrictions;
 /**
  * This class is the box where the items will be packed. 
- * When a Bin is created, the limits associated to the minimum sizes and maximum sizes should be informed by the {@link Restrictions} interface.
+ * When a Container is created, the limits associated to the minimum sizes and maximum sizes should be informed by the {@link Restrictions} interface.
  */
-public class Bin {
+public class Container {
     
     private Restrictions restrictions;
     private Double width;
@@ -26,9 +26,9 @@ public class Bin {
     
     
     /**
-     * Constructor to create a Bin with its restrictions
+     * Constructor to create a Container with its restrictions
      */
-    public Bin(Restrictions restrictions) {
+    public Container(Restrictions restrictions) {
         this.restrictions = restrictions;
         this.width = 0.0;
         this.length = 0.0;
@@ -132,7 +132,7 @@ public class Bin {
                     // Checks if the new measurements of the bin exceed the maximum allowed
                     if(!restrictions.isMaxRestrictionsViolated(this)){
                         
-                        // Se o item for colocado neste ponto, o volume da caixa ficará menor do que nos outros pontos?
+                        // Se o item for colocado neste ponto, o volume da caixa ficarï¿½ menor do que nos outros pontos?
                         if (widthFake * lengthFake * heightFake < this.volume || this.volume == 0) {
                         	this.volume = widthFake * lengthFake * heightFake;
                         	itemWidth = item.getWidth();
@@ -365,9 +365,9 @@ public class Bin {
     
     @Override
     public String toString() {
-        String result = "Bin items: " +  items.size() + "\n";
-        result += "Bin Volume: " + (this.width * this.length * this.height + "\n");
-        result += "Bin sizes {width: " + this.width + ", length: " + this.length + ", height: " + this.height + "}";
+        String result = "Container items: " +  items.size() + "\n";
+        result += "Container Volume: " + (this.width * this.length * this.height + "\n");
+        result += "Container sizes {width: " + this.width + ", length: " + this.length + ", height: " + this.height + "}";
         
         return result;
     }

@@ -8,12 +8,12 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import br.com.diegotonzi.binpacking.model.Bin;
+import br.com.diegotonzi.binpacking.model.Container;
 import br.com.diegotonzi.binpacking.model.Item;
 
 public class DrawBin extends JComponent {
 
-	private Bin bin = null;
+	private Container container = null;
 	private final int SCALE = 5;
 	private static final long serialVersionUID = 1L;
 
@@ -39,15 +39,15 @@ public class DrawBin extends JComponent {
 		frame.setVisible(true);
 	}
 	
-	public void drawing(Bin bin){
+	public void drawing(Container container){
 		//this.clear();
-		this.bin= bin;
+		this.container= container;
 		repaint();
 	}
 	
 	public void clear(){
-		if(bin != null && bin.getItens() != null){
-			this.bin.getItens().clear();
+		if(container != null && container.getItens() != null){
+			this.container.getItens().clear();
 			repaint();
 		}
 	}
@@ -56,20 +56,20 @@ public class DrawBin extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	
-		if(bin != null && bin.getItens() != null){
+		if(container != null && container.getItens() != null){
 			
-			g.drawString("Bin items: " +  bin.getItens().size(), 5 * SCALE, (bin.getLength().intValue() + 10) * SCALE);
-			g.drawString("Bin sizes: [ Width: " + bin.getWidth() + ", Length: " + bin.getLength() + ", Height: " + bin.getHeight() + " ]", 5 * SCALE, (bin.getLength().intValue() + 14) * SCALE);
-			g.drawString("--------------------------------------------------------------------------------------------------------------", 5 * SCALE, (bin.getLength().intValue() + 16) * SCALE);
+			g.drawString("Container items: " +  container.getItens().size(), 5 * SCALE, (container.getLength().intValue() + 10) * SCALE);
+			g.drawString("Container sizes: [ Width: " + container.getWidth() + ", Length: " + container.getLength() + ", Height: " + container.getHeight() + " ]", 5 * SCALE, (container.getLength().intValue() + 14) * SCALE);
+			g.drawString("--------------------------------------------------------------------------------------------------------------", 5 * SCALE, (container.getLength().intValue() + 16) * SCALE);
 			//int count = 20;
-			for (Item item : bin.getItens()) {
+			for (Item item : container.getItens()) {
 				//Color randomColor = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
 				g.drawRect(item.getPoint().getWidth().getBegin().intValue() * SCALE, item.getPoint().getLength().getBegin().intValue() * SCALE, item.getWidth().intValue() * SCALE, item.getLength().intValue() * SCALE);  
 				g.setColor(Color.BLACK); 
 				//g.setColor(randomColor); 
 			    //g.fillRect(item.getPoint().getWidth().getBegin().intValue() * SCALE, item.getPoint().getLength().getBegin().intValue() * SCALE, item.getWidth().intValue() * SCALE, item.getLength().intValue() * SCALE);
 				
-				//g.drawString(item.toString(), 5 * SCALE, (bin.getLength().intValue() + count) * SCALE);
+				//g.drawString(item.toString(), 5 * SCALE, (container.getLength().intValue() + count) * SCALE);
 				//count += 4;
 			}
 			

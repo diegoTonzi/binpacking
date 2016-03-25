@@ -1,6 +1,6 @@
 package br.com.diegotonzi.binpacking.restrictions;
 
-import br.com.diegotonzi.binpacking.model.Bin;
+import br.com.diegotonzi.binpacking.model.Container;
 import br.com.diegotonzi.binpacking.model.Item;
 
 /**
@@ -16,14 +16,14 @@ public class CorreiosPac implements Restrictions {
     
     /**
      * Checks if the bin is out of the minimum restrictions allowed by the Correios.
-     * @param bin to be checked
+     * @param container to be checked
      * @return True when the bin exceeds the minimums restrictions. False otherwise
      */
     @Override
-    public boolean isMinRestrictionsViolated(Bin bin) {
-        if(bin.getWidth() < MIN_WIDTH_BIN) return true;
-        if(bin.getLength() < MIN_LENGTH_BIN) return true;
-        if(bin.getHeight() < MIN_HEIGHT_BIN) return true;
+    public boolean isMinRestrictionsViolated(Container container) {
+        if(container.getWidth() < MIN_WIDTH_BIN) return true;
+        if(container.getLength() < MIN_LENGTH_BIN) return true;
+        if(container.getHeight() < MIN_HEIGHT_BIN) return true;
         return false;
     }
 
@@ -31,22 +31,22 @@ public class CorreiosPac implements Restrictions {
      * If the bin is out of the minimum restrictions, then, the default values of minimum restrictions are applied.
      */
     @Override
-    public void minRestrictionsViolated(Bin bin) {
-        if(bin.getWidth() < MIN_WIDTH_BIN) bin.setWidth(MIN_WIDTH_BIN);
-        if(bin.getLength() < MIN_LENGTH_BIN) bin.setLength(MIN_LENGTH_BIN);
-        if(bin.getHeight() < MIN_HEIGHT_BIN) bin.setHeight(MIN_HEIGHT_BIN);
+    public void minRestrictionsViolated(Container container) {
+        if(container.getWidth() < MIN_WIDTH_BIN) container.setWidth(MIN_WIDTH_BIN);
+        if(container.getLength() < MIN_LENGTH_BIN) container.setLength(MIN_LENGTH_BIN);
+        if(container.getHeight() < MIN_HEIGHT_BIN) container.setHeight(MIN_HEIGHT_BIN);
     }
 
     /**
      * Checks if the bin is out of the maximum restrictions allowed by the Correios.
      * This method do not use the real measures of the bin. Is used the Updated Measures after that an item is added
-     * @param bin to be checked
+     * @param container to be checked
      * @return True when the bin exceeds the maximums restrictions. False otherwise
      */
     @Override
-    public boolean isMaxRestrictionsViolated(Bin bin) {
-        if((bin.getUpdatedWidth() + bin.getUpdatedLength() + bin.getUpdatedHeight()) > MAX_TOTAL_SIZE_BIN) return true;
-        if(bin.getUpdatedWidth() > MAX_SIDE || bin.getUpdatedLength() > MAX_SIDE || bin.getUpdatedHeight() > MAX_SIDE) return true;
+    public boolean isMaxRestrictionsViolated(Container container) {
+        if((container.getUpdatedWidth() + container.getUpdatedLength() + container.getUpdatedHeight()) > MAX_TOTAL_SIZE_BIN) return true;
+        if(container.getUpdatedWidth() > MAX_SIDE || container.getUpdatedLength() > MAX_SIDE || container.getUpdatedHeight() > MAX_SIDE) return true;
         return false;
     }
 
@@ -62,7 +62,7 @@ public class CorreiosPac implements Restrictions {
     }
     
     @Override
-    public void maxRestrictionsViolated(Bin bin) {
+    public void maxRestrictionsViolated(Container container) {
     }
     
     

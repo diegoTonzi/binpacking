@@ -1,36 +1,36 @@
 package br.com.diegotonzi.binpacking.restrictions;
 
-import br.com.diegotonzi.binpacking.model.Bin;
+import br.com.diegotonzi.binpacking.model.Container;
 import br.com.diegotonzi.binpacking.model.Item;
 
 /**
  * Represents the size restrictions of the bin. <br/> 
- * When items are packaged, one of the criteria used to decide if is necessary create a new package to accommodate the items is when the maximum and minimum sizes are reached. <br/> 
- * So, this interface allows the algorithm use different packaging rules in relation to the size of the bins
+ï¿½* When items are packaged, one of the criteria used to decide if is necessary create a new package to accommodate the items is when the maximum and minimum sizes are reached. <br/> 
+ï¿½* So, this interface allows the algorithm use different packaging rules in relation to the size of the bins
  */
 public interface Restrictions {
 
     /**
      * Method used to verify if the bin is out of the minimum restrictions allowed.
      * If is not necessary to verify the minimums restrictions, only return false.
-     * @param bin used to verify the restrictions
+     * @param container used to verify the restrictions
      * @returns true if the minimum restrictions were violated, false otherwise.
      */
-    boolean isMinRestrictionsViolated(Bin bin);
+    boolean isMinRestrictionsViolated(Container container);
     
     /**
      * Method used to apply the rules when the minimum restrictions are violated
-     * @param bin to be applied the rules
+     * @param container to be applied the rules
      */
-    void minRestrictionsViolated(Bin bin);
+    void minRestrictionsViolated(Container container);
     
     /**
      * Method used to verify if the bin is out of the maximum restriction allowed.
      * If is not necessary to verify the maximum restrictions, only return false.
-     * @param bin used to verify the restrictions
+     * @param container used to verify the restrictions
      * @returns true if the maximum restrictions were violated, false otherwise.
      */
-    boolean isMaxRestrictionsViolated(Bin bin);
+    boolean isMaxRestrictionsViolated(Container container);
     
     /**
      * Method used to verify if one Item is out of the maximum restriction allowed.
@@ -43,9 +43,9 @@ public interface Restrictions {
     
     /**
      * Method used to apply the rules when the maximum restrictions are violated
-     * @param bin to be applied the rules
+     * @param container to be applied the rules
      */
-    void maxRestrictionsViolated(Bin bin);
+    void maxRestrictionsViolated(Container container);
     
     /**
      * Minimum value allowed for the height of a bin
