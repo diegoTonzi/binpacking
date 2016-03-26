@@ -64,7 +64,7 @@ public class DrawBin extends JComponent {
 			//int count = 20;
 			for (Item item : container.getItens()) {
 				//Color randomColor = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
-				g.drawRect(item.getPoint().getWidth().getBegin().intValue() * SCALE, item.getPoint().getLength().getBegin().intValue() * SCALE, item.getWidth().intValue() * SCALE, item.getLength().intValue() * SCALE);  
+				g.drawRect(item.getPoint().getWidth().getBegin().intValue() * SCALE, item.getPoint().getLength().getBegin().intValue() * SCALE, item.getMeasures().getWidth().intValue() * SCALE, item.getMeasures().getLength().intValue() * SCALE);  
 				g.setColor(Color.BLACK); 
 				//g.setColor(randomColor); 
 			    //g.fillRect(item.getPoint().getWidth().getBegin().intValue() * SCALE, item.getPoint().getLength().getBegin().intValue() * SCALE, item.getWidth().intValue() * SCALE, item.getLength().intValue() * SCALE);

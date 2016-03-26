@@ -1,45 +1,17 @@
 package br.com.diegotonzi.binpacking.model;
 
-/**
- * Class that represents the product of the basket. 
- * Composed by measurements of the width, length and height of the product and the point where the item was inserted into the bin
- */
 public class Item implements Comparable<Item> {
     
-    private Double width;
-    private Double length;
-    private Double height;
+    private Measures measures;
     private Point point;
     
-    public Item(Double width, Double length, Double height) {
-        this.width = width;
-        this.length = length;
-        this.height = height;
+    public Item(Measures measures) {
+        this.measures = measures;
         this.point = new Point(new Line(0.0, 0.0), new Line(0.0, 0.0), new Line(0.0, 0.0));
     }
 
-    public Double getWidth() {
-        return width;
-    }
-    
-    public void setWidth(Double width) {
-        this.width = width;
-    }
-
-    public Double getLength() {
-        return length;
-    }
-    
-    public void setLength(Double length) {
-        this.length = length;
-    }
-
-    public Double getHeight() {
-        return height;
-    }
-    
-    public void setHeight(Double height) {
-        this.height = height;
+    public Measures getMeasures(){
+    	return this.measures;
     }
     
     public Point getPoint(){
@@ -50,75 +22,38 @@ public class Item implements Comparable<Item> {
         this.point = point;
     }
     
-    /**
-     * Rotate the base of item
-     */
-    public void switchSides(){
-        Double aux = width;
-        width = length;
-        length = aux;
+    public void switchWidthLength(){
+        this.measures = new Measures(measures.getLength(), measures.getWidth(), measures.getHeight(), measures.getWeight());
     }
-    
-    /**
-     * Rotate the base of item
-     */
+
     public void switchHeightWidth(){
-        Double aux = height;
-        height = width;
-        width = aux;
+        this.measures = new Measures(measures.getHeight(), measures.getLength(), measures.getWidth(), measures.getWeight());
     }
     
-    /**
-     * Rotate the base of item
-     */
     public void switchHeightLength(){
-        Double aux = height;
-        height = length;
-        length = aux;
+        this.measures = new Measures(measures.getWidth(), measures.getHeight(), measures.getLength(), measures.getWeight());
     }
-        
-    /**
-     * Sort the sides of the item using as criteria, in order: height, width and length
-     */
-    public void sortSide(){
-        Double aux = null;
-        if(width > height){
-            aux = height;
-            height = width;
-            width = aux;
+
+    public void sortSides(){
+        if(measures.getWidth() > measures.getHeight()){
+            switchHeightWidth();
         } 
-        if(length > height){
-            aux = height;
-            height = length;
-            length = aux;
+        if(measures.getLength() > measures.getHeight()){
+            switchHeightLength();
         } 
-        if(length > width){
-            aux = width;
-            width = length;
-            length = aux;
+        if(measures.getLength() > measures.getWidth()){
+            switchWidthLength();
         } 
     }
 
-    /**
-     * This method do not consider the measurements of the item, the rule to compare two items 
-     * is to compare their volumes
-     */
     @Override
     public int compareTo(Item item) {   
-        double thisVolume = width * length * height;
-        double otherVolume = item.getWidth() * item.getLength() * item.getHeight();
-        if(thisVolume > otherVolume){
-            return -1;
-        } else if (thisVolume < otherVolume) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return this.measures.compareTo(item.getMeasures());
     }
     
     @Override
     public String toString() {
-        return "Item Sizes {width: " + this.width + ", length: " + this.length + ", height: " + this.height + "} - " + this.point.toString();
+        return "Item Sizes {width: " + this.measures.getWidth() + ", length: " + this.measures.getLength() + ", height: " + this.measures.getHeight() + "} - " + this.point.toString();
     }
     
 }

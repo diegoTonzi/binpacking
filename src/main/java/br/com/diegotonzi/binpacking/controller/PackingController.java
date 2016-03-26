@@ -43,7 +43,7 @@ public class PackingController {
         }
         
         this.itens = itens;
-        for (Item item : itens) item.sortSide();
+        for (Item item : itens) item.sortSides();
         Collections.sort(this.itens);
     }
 

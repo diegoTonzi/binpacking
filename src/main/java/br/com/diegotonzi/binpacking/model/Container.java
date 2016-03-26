@@ -49,9 +49,9 @@ public class Container {
     }
 
     private Integer getBestEntryPoint(Item item){
-        double itemWidth = item.getWidth();
-        double itemLength = item.getLength();
-        double itemHeight = item.getHeight();
+        double itemWidth = item.getMeasures().getWidth();
+        double itemLength = item.getMeasures().getLength();
+        double itemHeight = item.getMeasures().getHeight();
         Integer index = null;
         Double volume = 0D;
         
@@ -59,23 +59,23 @@ public class Container {
 	        for (int i = 0; i < entryPoints.size(); i++) {
 	                
 	            // Checks if the item fits in the length and width measurements of point
-	            if(item.getWidth() <= entryPoints.get(i).getWidth().getEnd() - entryPoints.get(i).getWidth().getBegin()) { 
-	                if (item.getLength() <= entryPoints.get(i).getLength().getEnd() - entryPoints.get(i).getLength().getBegin()) {
+	            if(item.getMeasures().getWidth() <= entryPoints.get(i).getWidth().getEnd() - entryPoints.get(i).getWidth().getBegin()) { 
+	                if (item.getMeasures().getLength() <= entryPoints.get(i).getLength().getEnd() - entryPoints.get(i).getLength().getBegin()) {
 	                    	
-	                	if(entryPoints.get(i).getWidth().getBegin() + item.getWidth() > measures.getWidth()){
-	                		measuresFake.setWidth(entryPoints.get(i).getWidth().getBegin() + item.getWidth());
+	                	if(entryPoints.get(i).getWidth().getBegin() + item.getMeasures().getWidth() > measures.getWidth()){
+	                		measuresFake.setWidth(entryPoints.get(i).getWidth().getBegin() + item.getMeasures().getWidth());
 	                	} else {
 	                		measuresFake.setWidth(measures.getWidth());
 	                	}
 	                	
-	                	if(entryPoints.get(i).getLength().getBegin() + item.getLength() > measures.getLength()){
-	                		measuresFake.setLength(entryPoints.get(i).getLength().getBegin() + item.getLength());
+	                	if(entryPoints.get(i).getLength().getBegin() + item.getMeasures().getLength() > measures.getLength()){
+	                		measuresFake.setLength(entryPoints.get(i).getLength().getBegin() + item.getMeasures().getLength());
 	                	} else {
 	                		measuresFake.setLength(measures.getLength());
 	                	}
 	                			
-	                	if(entryPoints.get(i).getHeight().getBegin() + item.getHeight() > measures.getHeight()){
-	                		measuresFake.setHeight(entryPoints.get(i).getHeight().getBegin() + item.getHeight());
+	                	if(entryPoints.get(i).getHeight().getBegin() + item.getMeasures().getHeight() > measures.getHeight()){
+	                		measuresFake.setHeight(entryPoints.get(i).getHeight().getBegin() + item.getMeasures().getHeight());
 	                	} else {
 	                		measuresFake.setHeight(measures.getHeight());
 	                	}
@@ -86,9 +86,9 @@ public class Container {
 	                        // If the item is placed in this point, the volume of the bin will be lower than that other points?
 	                        if (measuresFake.getVolume() < volume || volume == 0) {
 	                        	volume = measuresFake.getVolume();
-	                        	itemWidth = item.getWidth();
-	                        	itemLength = item.getLength();
-	                        	itemHeight = item.getHeight();
+	                        	itemWidth = item.getMeasures().getWidth();
+	                        	itemLength = item.getMeasures().getLength();
+	                        	itemHeight = item.getMeasures().getHeight();
 	                            index = i;
 	                        } 
 	                        
@@ -99,12 +99,12 @@ public class Container {
 	
 	        }
         
-	        item.switchSides();
+	        item.switchWidthLength();
     	}
         
-        item.setWidth(itemWidth);
-        item.setLength(itemLength);
-        item.setHeight(itemHeight);
+        item.getMeasures().setWidth(itemWidth);
+        item.getMeasures().setLength(itemLength);
+        item.getMeasures().setHeight(itemHeight);
         
         return index;
     } 
@@ -112,9 +112,9 @@ public class Container {
     private void addItem(Item item, Point point){
 
         // Update the point used and insert it into the item
-        point.getWidth().setEnd(point.getWidth().getBegin() + item.getWidth());
-        point.getLength().setEnd(point.getLength().getBegin() + item.getLength());
-        point.getHeight().setEnd(point.getHeight().getBegin() + item.getHeight());
+        point.getWidth().setEnd(point.getWidth().getBegin() + item.getMeasures().getWidth());
+        point.getLength().setEnd(point.getLength().getBegin() + item.getMeasures().getLength());
+        point.getHeight().setEnd(point.getHeight().getBegin() + item.getMeasures().getHeight());
         
         // add item in a list items
         item.setPoint(point);
