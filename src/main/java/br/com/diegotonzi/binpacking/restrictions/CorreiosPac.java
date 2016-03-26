@@ -21,9 +21,9 @@ public class CorreiosPac implements Restrictions {
      */
     @Override
     public boolean isMinRestrictionsViolated(Container container) {
-        if(container.getWidth() < MIN_WIDTH_BIN) return true;
-        if(container.getLength() < MIN_LENGTH_BIN) return true;
-        if(container.getHeight() < MIN_HEIGHT_BIN) return true;
+        if(container.getMeasures().getWidth() < MIN_WIDTH_BIN) return true;
+        if(container.getMeasures().getLength() < MIN_LENGTH_BIN) return true;
+        if(container.getMeasures().getHeight() < MIN_HEIGHT_BIN) return true;
         return false;
     }
 
@@ -32,9 +32,9 @@ public class CorreiosPac implements Restrictions {
      */
     @Override
     public void minRestrictionsViolated(Container container) {
-        if(container.getWidth() < MIN_WIDTH_BIN) container.setWidth(MIN_WIDTH_BIN);
-        if(container.getLength() < MIN_LENGTH_BIN) container.setLength(MIN_LENGTH_BIN);
-        if(container.getHeight() < MIN_HEIGHT_BIN) container.setHeight(MIN_HEIGHT_BIN);
+        if(container.getMeasures().getWidth() < MIN_WIDTH_BIN) container.getMeasures().setWidth(MIN_WIDTH_BIN);
+        if(container.getMeasures().getLength() < MIN_LENGTH_BIN) container.getMeasures().setLength(MIN_LENGTH_BIN);
+        if(container.getMeasures().getHeight() < MIN_HEIGHT_BIN) container.getMeasures().setHeight(MIN_HEIGHT_BIN);
     }
 
     /**
@@ -45,8 +45,8 @@ public class CorreiosPac implements Restrictions {
      */
     @Override
     public boolean isMaxRestrictionsViolated(Container container) {
-        if((container.getUpdatedWidth() + container.getUpdatedLength() + container.getUpdatedHeight()) > MAX_TOTAL_SIZE_BIN) return true;
-        if(container.getUpdatedWidth() > MAX_SIDE || container.getUpdatedLength() > MAX_SIDE || container.getUpdatedHeight() > MAX_SIDE) return true;
+        if((container.getUpdatedMeasures().getWidth() + container.getUpdatedMeasures().getLength() + container.getUpdatedMeasures().getHeight()) > MAX_TOTAL_SIZE_BIN) return true;
+        if(container.getUpdatedMeasures().getWidth() > MAX_SIDE || container.getUpdatedMeasures().getLength() > MAX_SIDE || container.getUpdatedMeasures().getHeight() > MAX_SIDE) return true;
         return false;
     }
 

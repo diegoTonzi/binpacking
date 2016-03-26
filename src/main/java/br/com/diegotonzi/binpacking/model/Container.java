@@ -12,47 +12,27 @@ import br.com.diegotonzi.binpacking.restrictions.Restrictions;
 public class Container {
     
     private Restrictions restrictions;
-    private Double width;
-    private Double length;
-    private Double height;
-    private Double volume;
+    private Measures measures;
+    private Measures measuresFake;
     private List<Item> items;
     private List<Point> entryPoints;
     private Point reference;
+
     
-    private Double widthFake = null;
-    private Double lengthFake = null;
-    private Double heightFake = null;
-    
-    
-    /**
-     * Constructor to create a Container with its restrictions
-     */
     public Container(Restrictions restrictions) {
         this.restrictions = restrictions;
-        this.width = 0.0;
-        this.length = 0.0;
-        this.height = 0.0;
-        this.volume = 0.0;
+        this.measures = new Measures(0D, 0D, 0D, 0D);
+        this.measuresFake = new Measures(0D, 0D, 0D, 0D);
         this.items = new ArrayList<Item>();
         this.entryPoints = new ArrayList<Point>();
         entryPoints.add(new Point(new Line(0D, restrictions.getMaxSide()), new Line(0D, restrictions.getMaxSide()), new Line(0D, restrictions.getMaxSide())));
     }
 
-    /**
-     * Try to add the item inside of bin.
-     * @param item
-     * @return True if the item was added. False otherwise
-     */
     public boolean add(Item item){
         
-        // Select the best point to insert item
         Integer position = getBestEntryPoint(item);
-        
-        // If the position is null, then, the item can not to be inserted
         if(position == null) return false;
         
-        // Add item at the selected point
         try {
             addItem(item, (Point) entryPoints.get(position).clone());
             reference = (Point) entryPoints.get(position).clone();
@@ -61,92 +41,66 @@ public class Container {
             return false;
         }
         
-        // remove from the entryPoints the point where the item was added
         entryPoints.remove(position.intValue());
-        
-        // creates new entryPoins from the added item
         createEntryPoints(item, reference);
-        
-        // sort the entryPoints
         Collections.sort(entryPoints);
-                
-        // Update the entryPoints
         updateEntryPoints();
-        
         return true;
     }
-    
-    /**
-     * Return the best entry point to place the item
-     * @param item
-     * @return A index of best point to place the item
-     */
+
     private Integer getBestEntryPoint(Item item){
         double itemWidth = item.getWidth();
         double itemLength = item.getLength();
         double itemHeight = item.getHeight();
         Integer index = null;
-        this.volume = 0.0;
+        Double volume = 0D;
         
-        for (int i = 0; i < entryPoints.size(); i++) {
-                
-            // Checks if the item fits in the length and width measurements of point
-            if(item.getWidth() <= entryPoints.get(i).getWidth().getEnd() - entryPoints.get(i).getWidth().getBegin()) { 
-                if (item.getLength() <= entryPoints.get(i).getLength().getEnd() - entryPoints.get(i).getLength().getBegin()) {
-                    
-                	widthFake = entryPoints.get(i).getWidth().getBegin() + item.getWidth() > this.width? entryPoints.get(i).getWidth().getBegin() + item.getWidth() : this.width;
-                	lengthFake = entryPoints.get(i).getLength().getBegin() + item.getLength() > this.length? entryPoints.get(i).getLength().getBegin() + item.getLength() : this.length;
-                	heightFake = entryPoints.get(i).getHeight().getBegin() + item.getHeight() > this.height? entryPoints.get(i).getHeight().getBegin() + item.getHeight() : this.height;
-                    
-                    // Checks if the new measurements of the bin exceed the maximum allowed
-                    if(!restrictions.isMaxRestrictionsViolated(this)){
-                        
-                        // If the item is placed in this point, the volume of the bin will be lower than that other points?
-                        if (widthFake * lengthFake * heightFake < this.volume || this.volume == 0) {
-                        	this.volume = widthFake * lengthFake * heightFake;
-                        	itemWidth = item.getWidth();
-                        	itemLength = item.getLength();
-                        	itemHeight = item.getHeight();
-                            index = i;
-                        } 
-                        
-                    }
-                    
-                }
-            }
-
-        }
+        for (int j = 0; j < 2; j++) {
+	        for (int i = 0; i < entryPoints.size(); i++) {
+	                
+	            // Checks if the item fits in the length and width measurements of point
+	            if(item.getWidth() <= entryPoints.get(i).getWidth().getEnd() - entryPoints.get(i).getWidth().getBegin()) { 
+	                if (item.getLength() <= entryPoints.get(i).getLength().getEnd() - entryPoints.get(i).getLength().getBegin()) {
+	                    	
+	                	if(entryPoints.get(i).getWidth().getBegin() + item.getWidth() > measures.getWidth()){
+	                		measuresFake.setWidth(entryPoints.get(i).getWidth().getBegin() + item.getWidth());
+	                	} else {
+	                		measuresFake.setWidth(measures.getWidth());
+	                	}
+	                	
+	                	if(entryPoints.get(i).getLength().getBegin() + item.getLength() > measures.getLength()){
+	                		measuresFake.setLength(entryPoints.get(i).getLength().getBegin() + item.getLength());
+	                	} else {
+	                		measuresFake.setLength(measures.getLength());
+	                	}
+	                			
+	                	if(entryPoints.get(i).getHeight().getBegin() + item.getHeight() > measures.getHeight()){
+	                		measuresFake.setHeight(entryPoints.get(i).getHeight().getBegin() + item.getHeight());
+	                	} else {
+	                		measuresFake.setHeight(measures.getHeight());
+	                	}
+	                	
+	                    // Checks if the new measurements of the bin exceed the maximum allowed
+	                    if(!restrictions.isMaxRestrictionsViolated(this)){
+	                        
+	                        // If the item is placed in this point, the volume of the bin will be lower than that other points?
+	                        if (measuresFake.getVolume() < volume || volume == 0) {
+	                        	volume = measuresFake.getVolume();
+	                        	itemWidth = item.getWidth();
+	                        	itemLength = item.getLength();
+	                        	itemHeight = item.getHeight();
+	                            index = i;
+	                        } 
+	                        
+	                    }
+	                    
+	                }
+	            }
+	
+	        }
         
-        item.switchSides();
-
-        for (int i = 0; i < entryPoints.size(); i++) {
-            
-            // Checks if the item fits in the length and width measurements of point
-            if(item.getWidth() <= entryPoints.get(i).getWidth().getEnd() - entryPoints.get(i).getWidth().getBegin()) { 
-                if (item.getLength() <= entryPoints.get(i).getLength().getEnd() - entryPoints.get(i).getLength().getBegin()) {
-                    
-                	widthFake = entryPoints.get(i).getWidth().getBegin() + item.getWidth() > this.width? entryPoints.get(i).getWidth().getBegin() + item.getWidth() : this.width;
-                	lengthFake = entryPoints.get(i).getLength().getBegin() + item.getLength() > this.length? entryPoints.get(i).getLength().getBegin() + item.getLength() : this.length;
-                	heightFake = entryPoints.get(i).getHeight().getBegin() + item.getHeight() > this.height? entryPoints.get(i).getHeight().getBegin() + item.getHeight() : this.height;
-                    
-                    // Checks if the new measurements of the bin exceed the maximum allowed
-                    if(!restrictions.isMaxRestrictionsViolated(this)){
-                        
-                        // Se o item for colocado neste ponto, o volume da caixa ficar� menor do que nos outros pontos?
-                        if (widthFake * lengthFake * heightFake < this.volume || this.volume == 0) {
-                        	this.volume = widthFake * lengthFake * heightFake;
-                        	itemWidth = item.getWidth();
-                        	itemLength = item.getLength();
-                        	itemHeight = item.getHeight();
-                            index = i;
-                        } 
-                        
-                    }
-                    
-                }
-            }
-            
-        }
+	        item.switchSides();
+    	}
         
         item.setWidth(itemWidth);
         item.setLength(itemLength);
@@ -154,12 +108,7 @@ public class Container {
         
         return index;
     } 
-        
-    /**
-     * Add the item in the point of the bin
-     * @param item to add
-     * @param point to place the item
-     */
+
     private void addItem(Item item, Point point){
 
         // Update the point used and insert it into the item
@@ -172,17 +121,20 @@ public class Container {
         items.add(item);
 
         // update the bin sizes
-        this.width = point.getWidth().getEnd() > this.width? point.getWidth().getEnd() : this.width;
-        this.length = point.getLength().getEnd() > this.length? point.getLength().getEnd() : this.length;
-        this.height = point.getHeight().getEnd() > this.height? point.getHeight().getEnd() : this.height;
-        this.volume = this.width * this.length * this.height;
+        if(point.getWidth().getEnd() > measures.getWidth()){
+        	measures.setWidth(point.getWidth().getEnd());
+        }
+
+		if(point.getLength().getEnd() > measures.getLength()){
+			measures.setLength(point.getLength().getEnd());
+        }
+        		
+		if(point.getHeight().getEnd() > measures.getHeight()){
+			measures.setHeight(point.getHeight().getEnd());
+        }
         
     }
-    
-    /**
-     * Through the added item, create the new entry points
-     * @param item
-     */
+
     private void createEntryPoints(Item item, Point reference){
 
     	// Checks if the item was placed in the base of bin
@@ -229,11 +181,6 @@ public class Container {
 
     }
 
-    /**
-     * Update the entry points when a new item is added.
-     * When a item is added in a bin, its can limit any line of the entry points.
-     * If this occurs, then, the lines of the point is updated 
-     */
     private void updateEntryPoints(){
 
     	for (Point entryPoint : entryPoints) {
@@ -299,58 +246,14 @@ public class Container {
         }
     }
     
-    /**
-     * Returns the value of the width of the box after/if an item is added.
-     * This measure does not represent the actual width of the box, its only the possible width of the box if certain item is added.
-     * After an item is added, the width is updated and is possible to get the actual width using {@link #getWidth}
-     */
-    public Double getUpdatedWidth() {
-        return widthFake;
+    public Measures getMeasures(){
+    	return this.measures;
     }
     
-    /**
-     * Returns the value of the length of the box after/if an item is added.
-     * This measure does not represent the actual length of the box, its only the possible length of the box if certain item is added.
-     * After an item is added, the length is updated and is possible to get the actual width using {@link #getLength()}
-     */
-    public Double getUpdatedLength() {
-        return lengthFake;
+    public Measures getUpdatedMeasures(){
+    	return this.measuresFake;
     }
     
-    /**
-     * Returns the value of the height of the box after/if an item is added.
-     * This measure does not represent the actual height of the box, its only the possible height of the box if certain item is added.
-     * After an item is added, the height is updated and is possible to get the actual height using {@link #getHeight()}
-     */
-    public Double getUpdatedHeight() {
-        return heightFake;
-    }
-    
-    
-    public Double getWidth() {
-        return width;
-    }
-    
-    public void setWidth(Double width){
-        this.width = width;
-    }
-
-    public Double getLength() {
-        return length;
-    }
-    
-    public void setLength(Double length){
-        this.length = length;
-    }
-
-    public Double getHeight() {
-        return height;
-    }
-    
-    public void setHeight(Double height){
-        this.height = height;
-    }
-
     public List<Item> getItens(){
         return this.items;
     }
@@ -366,8 +269,8 @@ public class Container {
     @Override
     public String toString() {
         String result = "Container items: " +  items.size() + "\n";
-        result += "Container Volume: " + (this.width * this.length * this.height + "\n");
-        result += "Container sizes {width: " + this.width + ", length: " + this.length + ", height: " + this.height + "}";
+        result += "Container Volume: " + measures.getVolume();
+        result += "Container sizes {width: " + measures.getWidth() + ", length: " + measures.getLength() + ", height: " + measures.getHeight() + "}";
         
         return result;
     }

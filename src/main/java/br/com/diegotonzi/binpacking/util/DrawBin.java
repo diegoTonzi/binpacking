@@ -58,9 +58,9 @@ public class DrawBin extends JComponent {
 	
 		if(container != null && container.getItens() != null){
 			
-			g.drawString("Container items: " +  container.getItens().size(), 5 * SCALE, (container.getLength().intValue() + 10) * SCALE);
-			g.drawString("Container sizes: [ Width: " + container.getWidth() + ", Length: " + container.getLength() + ", Height: " + container.getHeight() + " ]", 5 * SCALE, (container.getLength().intValue() + 14) * SCALE);
-			g.drawString("--------------------------------------------------------------------------------------------------------------", 5 * SCALE, (container.getLength().intValue() + 16) * SCALE);
+			g.drawString("Container items: " +  container.getItens().size(), 5 * SCALE, (container.getMeasures().getLength().intValue() + 10) * SCALE);
+			g.drawString("Container sizes: [ Width: " + container.getMeasures().getWidth() + ", Length: " + container.getMeasures().getLength() + ", Height: " + container.getMeasures().getHeight() + " ]", 5 * SCALE, (container.getMeasures().getLength().intValue() + 14) * SCALE);
+			g.drawString("--------------------------------------------------------------------------------------------------------------", 5 * SCALE, (container.getMeasures().getLength().intValue() + 16) * SCALE);
 			//int count = 20;
 			for (Item item : container.getItens()) {
 				//Color randomColor = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
