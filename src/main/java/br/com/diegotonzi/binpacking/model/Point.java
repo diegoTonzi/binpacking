@@ -1,9 +1,5 @@
 package br.com.diegotonzi.binpacking.model;
 
-/**
- * This class represents an entry point for a new item in a bin. <br/><br/>
- * An entry point is composed by three lines: width, length and height
- */
 public class Point implements Comparable<Point> {
     
     private Line width;
@@ -27,11 +23,7 @@ public class Point implements Comparable<Point> {
     public Line getHeight() {
         return height;
     }
-    
-    /**
-     * A point can be considered less than another, when the sum of the initial values ​​of their lines have a lower value than the sum of the initial values ​​of the lines of the point compared <br/> 
-     * One point is equal to another point when the sum of the initial values ​​of their lines have the same value as the sum of the initial values ​​of the lines of the point compared <br/>
-     */
+ 
     @Override
     public int compareTo(Point point) {
         double thisBegin = width.getBegin() + length.getBegin() + height.getBegin();

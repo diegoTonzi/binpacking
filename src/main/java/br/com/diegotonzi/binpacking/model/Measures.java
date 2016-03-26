@@ -13,10 +13,7 @@ public class Measures implements Comparable<Measures>{
 		this.height = height;
 		this.weight = weight;
 	}
-	
-	/**
-     * The rule to compare two Measures is to compare their volumes
-     */
+
 	@Override
 	public int compareTo(Measures other) {
         if(this.getVolume() > other.getVolume()){

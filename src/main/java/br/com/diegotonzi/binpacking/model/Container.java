@@ -5,10 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import br.com.diegotonzi.binpacking.restrictions.Restrictions;
-/**
- * This class is the box where the items will be packed. 
- * When a Container is created, the limits associated to the minimum sizes and maximum sizes should be informed by the {@link Restrictions} interface.
- */
+
 public class Container {
     
     private Restrictions restrictions;

@@ -1,11 +1,5 @@
 package br.com.diegotonzi.binpacking.model;
 
-/**
- * This class represents a line of a Point <br/><br/>
- * A Line have two attributes, the point where the line begins and the point where the line ends <br/>
- * When the line is in a Point object, its represents one of coordinates of this point, x(width), y(length) and z(height). <br/><br/>
- * If, for example, in a point, this line is the coordinate x(width), then, the values of begin and end of this line represents the two points in a coordinate x(width), for example, in a point this line is the coordinate x(width), then, the values of begin and end of this line represents the two points in a coordinate x(width)
- */
 public class Line {
     
     private Double begin;
