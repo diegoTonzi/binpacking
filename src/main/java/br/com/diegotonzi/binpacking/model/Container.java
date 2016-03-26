@@ -14,19 +14,19 @@ public class Container {
     private List<Item> items;
     private List<Point> entryPoints;
     private Point reference;
+    private Double volumeFake;
 
     
     public Container(Restrictions restrictions) {
         this.restrictions = restrictions;
-        this.measures = new Measures(0D, 0D, 0D, 0D);
-        this.measuresFake = new Measures(0D, 0D, 0D, 0D);
+        this.measures = new Measures();
+        this.measuresFake = new Measures();
         this.items = new ArrayList<Item>();
         this.entryPoints = new ArrayList<Point>();
-        entryPoints.add(new Point(new Line(0D, restrictions.getMaxSide()), new Line(0D, restrictions.getMaxSide()), new Line(0D, restrictions.getMaxSide())));
+        this.entryPoints.add(new Point(new Line(0D, restrictions.getMaxSide()), new Line(0D, restrictions.getMaxSide()), new Line(0D, restrictions.getMaxSide())));
     }
 
     public boolean add(Item item){
-        
         Integer position = getBestEntryPoint(item);
         if(position == null) return false;
         
@@ -44,67 +44,70 @@ public class Container {
         updateEntryPoints();
         return true;
     }
-
+    
     private Integer getBestEntryPoint(Item item){
-        double itemWidth = item.getMeasures().getWidth();
-        double itemLength = item.getMeasures().getLength();
-        double itemHeight = item.getMeasures().getHeight();
+    	this.volumeFake = 0D;
+    	Integer index = null;
+
+		index = calculateBestEntryPoint(item);
+		
+		item.switchWidthLength();
+		Integer i = calculateBestEntryPoint(item);
+		if(i == null){
+			item.switchWidthLength();
+		} else {
+			index = i;
+		}
+    	
+    	return index;
+    }
+
+    private Integer calculateBestEntryPoint(Item item){
         Integer index = null;
-        Double volume = 0D;
         
-        for (int j = 0; j < 2; j++) {
-	        for (int i = 0; i < entryPoints.size(); i++) {
-	                
-	            // Checks if the item fits in the length and width measurements of point
-	            if(item.getMeasures().getWidth() <= entryPoints.get(i).getWidth().getEnd() - entryPoints.get(i).getWidth().getBegin()) { 
-	                if (item.getMeasures().getLength() <= entryPoints.get(i).getLength().getEnd() - entryPoints.get(i).getLength().getBegin()) {
-	                    	
-	                	if(entryPoints.get(i).getWidth().getBegin() + item.getMeasures().getWidth() > measures.getWidth()){
-	                		measuresFake.setWidth(entryPoints.get(i).getWidth().getBegin() + item.getMeasures().getWidth());
-	                	} else {
-	                		measuresFake.setWidth(measures.getWidth());
-	                	}
-	                	
-	                	if(entryPoints.get(i).getLength().getBegin() + item.getMeasures().getLength() > measures.getLength()){
-	                		measuresFake.setLength(entryPoints.get(i).getLength().getBegin() + item.getMeasures().getLength());
-	                	} else {
-	                		measuresFake.setLength(measures.getLength());
-	                	}
-	                			
-	                	if(entryPoints.get(i).getHeight().getBegin() + item.getMeasures().getHeight() > measures.getHeight()){
-	                		measuresFake.setHeight(entryPoints.get(i).getHeight().getBegin() + item.getMeasures().getHeight());
-	                	} else {
-	                		measuresFake.setHeight(measures.getHeight());
-	                	}
-	                	
-	                    // Checks if the new measurements of the bin exceed the maximum allowed
-	                    if(!restrictions.isMaxRestrictionsViolated(this)){
-	                        
-	                        // If the item is placed in this point, the volume of the bin will be lower than that other points?
-	                        if (measuresFake.getVolume() < volume || volume == 0) {
-	                        	volume = measuresFake.getVolume();
-	                        	itemWidth = item.getMeasures().getWidth();
-	                        	itemLength = item.getMeasures().getLength();
-	                        	itemHeight = item.getMeasures().getHeight();
-	                            index = i;
-	                        } 
-	                        
-	                    }
-	                    
-	                }
-	            }
-	
-	        }
-        
-	        item.switchWidthLength();
-    	}
-        
-        item.getMeasures().setWidth(itemWidth);
-        item.getMeasures().setLength(itemLength);
-        item.getMeasures().setHeight(itemHeight);
-        
+        for (int i = 0; i < entryPoints.size(); i++) {
+            if(fits(item, entryPoints.get(i))) { 
+            	updateMeasuresFake(item, entryPoints.get(i));
+                if(!restrictions.isMaxRestrictionsViolated(this)){
+                    if (measuresFake.getVolume() < this.volumeFake || this.volumeFake == 0) {
+                    	this.volumeFake = measuresFake.getVolume();
+                        index = i;
+                    } 
+                }
+            }
+        }
+
         return index;
     } 
+
+	private void updateMeasuresFake(Item item, Point point){
+		if(point.getWidth().getBegin() + item.getMeasures().getWidth() > measures.getWidth()){
+    		measuresFake.setWidth(point.getWidth().getBegin() + item.getMeasures().getWidth());
+    	} else {
+    		measuresFake.setWidth(measures.getWidth());
+    	}
+    	
+    	if(point.getLength().getBegin() + item.getMeasures().getLength() > measures.getLength()){
+    		measuresFake.setLength(point.getLength().getBegin() + item.getMeasures().getLength());
+    	} else {
+    		measuresFake.setLength(measures.getLength());
+    	}
+    			
+    	if(point.getHeight().getBegin() + item.getMeasures().getHeight() > measures.getHeight()){
+    		measuresFake.setHeight(point.getHeight().getBegin() + item.getMeasures().getHeight());
+    	} else {
+    		measuresFake.setHeight(measures.getHeight());
+    	}
+	}	
+    
+    private boolean fits(Item item, Point point){
+    	if(item.getMeasures().getWidth() <= point.getWidth().getEnd() - point.getWidth().getBegin()) { 
+            if (item.getMeasures().getLength() <= point.getLength().getEnd() - point.getLength().getBegin()) {
+            	return true;
+            }
+    	}    
+    	return false;
+    }
 
     private void addItem(Item item, Point point){
 

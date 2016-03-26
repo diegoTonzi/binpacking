@@ -52,6 +52,11 @@ public class Item implements Comparable<Item> {
     }
     
     @Override
+    protected Item clone() throws CloneNotSupportedException {
+    	return new Item(new Measures(measures.getWidth(), measures.getLength(), measures.getHeight(), measures.getWeight()));
+    }
+    
+    @Override
     public String toString() {
         return "Item Sizes {width: " + this.measures.getWidth() + ", length: " + this.measures.getLength() + ", height: " + this.measures.getHeight() + "} - " + this.point.toString();
     }

@@ -7,6 +7,13 @@ public class Measures implements Comparable<Measures>{
 	private Double height;
 	private Double weight;
 	
+	public Measures() {
+		this.width = 0D;
+		this.length = 0D;
+		this.height = 0D;
+		this.weight = 0D;
+	}
+	
 	public Measures(Double width, Double length, Double height, Double weight) {
 		this.width = width;
 		this.length = length;
