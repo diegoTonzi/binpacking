@@ -15,22 +15,13 @@ import br.com.diegotonzi.binpacking.util.DrawBin;
  * When a bin can't include another item, then, another bin is created
  */
 public class PackingController {
-    
-	//TODO: Alterar o m�todo Container.updateEntryPoints() para que pontos adjacentes sejam unificados
-	//TODO: Adicionar restri��o quanto ao peso do pacote. Cria um m�todo com essa finalidade na interface BinRestrictions
-	//TODO: Melhorar a implementa��o do m�todo Container.getBestEntryPoints() para que n�o haja repeti��o de c�digo
-	
+
     private List<Container> containers;
     private List<Item> itens;
     private Restrictions binRestrictions;
     private boolean viewMode = false;
     private List<DrawBin> drawList;
     
-    /**
-     * Create a new pack controller with a list of items to organize and the bin restrictions
-     * @param itens List items to organize in containers
-     * @param binRestrictions The bin restrictions
-     */
     public PackingController(List<Item> itens, Restrictions binRestrictions, boolean viewMode) {
         this.binRestrictions = binRestrictions;
         containers = new ArrayList<Container>();
@@ -47,19 +38,12 @@ public class PackingController {
         Collections.sort(this.itens);
     }
 
-    /**
-     * Organize the list of items in containers.
-     * The items are arranged in a box, when not fit items inside the bin, another bin is created and this item is placed inside
-     */
     public void arrangeItens() throws InvalidParameterException{
-        
-        // Checks if any item of the list exceed the maximum size allowed
         for (Item item : itens) {
             if(containers.get(0).getRestrictions().isMaxRestrictionsViolated(item))
                 throw new InvalidParameterException("There are products that exceed the maximum size allowed for Correios");
         }
         
-        // Add item into the bin
         boolean added;
         for (Item item : itens) {
             added = false;
@@ -82,7 +66,6 @@ public class PackingController {
             
         }
         
-        // Checks if the bin have the minimum sizes allowed
         for (Container container : containers) {
             if(binRestrictions.isMinRestrictionsViolated(container)) {
                 binRestrictions.minRestrictionsViolated(container);
@@ -90,10 +73,7 @@ public class PackingController {
         }
 
     }
-    
-    /**
-     * Create a new bin
-     */
+
     private void createBin(){
         containers.add(new Container(this.binRestrictions));
         if(this.viewMode){
@@ -120,4 +100,4 @@ public class PackingController {
         }
     }
     
-}//Class
+}

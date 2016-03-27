@@ -2,16 +2,29 @@ package br.com.diegotonzi.binpacking.model;
 
 public class Item implements Comparable<Item> {
     
+	private String id;
     private Measures measures;
+    private boolean rotateVerticaly;
     private Point point;
     
-    public Item(Measures measures) {
+    
+    public Item(Measures measures, String id, boolean rotateVerticaly) {
+    	this.id = id;
         this.measures = measures;
+        this.rotateVerticaly = rotateVerticaly;
         this.point = new Point(new Line(0.0, 0.0), new Line(0.0, 0.0), new Line(0.0, 0.0));
     }
 
+    public String getId(){
+    	return this.id;
+    }
+    
     public Measures getMeasures(){
     	return this.measures;
+    }
+    
+    public boolean canRotateVerticaly(){
+    	return this.rotateVerticaly;
     }
     
     public Point getPoint(){
@@ -36,10 +49,14 @@ public class Item implements Comparable<Item> {
 
     public void sortSides(){
         if(measures.getWidth() > measures.getHeight()){
-            switchHeightWidth();
+        	if(rotateVerticaly){
+        		switchHeightWidth();
+        	}
         } 
         if(measures.getLength() > measures.getHeight()){
-            switchHeightLength();
+        	if(rotateVerticaly){
+        		switchHeightLength();
+        	}
         } 
         if(measures.getLength() > measures.getWidth()){
             switchWidthLength();
@@ -53,12 +70,13 @@ public class Item implements Comparable<Item> {
     
     @Override
     protected Item clone() throws CloneNotSupportedException {
-    	return new Item(new Measures(measures.getWidth(), measures.getLength(), measures.getHeight(), measures.getWeight()));
+    	Measures meas = new Measures(measures.getWidth(), measures.getLength(), measures.getHeight(), measures.getWeight());
+    	return new Item(meas, this.id, this.rotateVerticaly);
     }
     
     @Override
     public String toString() {
-        return "Item Sizes {width: " + this.measures.getWidth() + ", length: " + this.measures.getLength() + ", height: " + this.measures.getHeight() + "} - " + this.point.toString();
+        return id + "[width: " + this.measures.getWidth() + ", length: " + this.measures.getLength() + ", height: " + this.measures.getHeight() + "] - " + this.point.toString();
     }
     
 }

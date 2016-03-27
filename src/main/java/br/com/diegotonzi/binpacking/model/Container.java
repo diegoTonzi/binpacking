@@ -13,7 +13,6 @@ public class Container {
     private Measures measuresFake;
     private List<Item> items;
     private List<Point> entryPoints;
-    private Point reference;
     private Double volumeFake;
 
     
@@ -28,28 +27,24 @@ public class Container {
 
     public boolean add(Item item){
         Integer position = getBestEntryPoint(item);
-        if(position == null) return false;
-        
-        try {
-            addItem(item, (Point) entryPoints.get(position).clone());
-            reference = (Point) entryPoints.get(position).clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return false;
+        if(position == null) {
+        	return false;
         }
+
+        add(item, entryPoints.get(position).clone());
+        Point reference = entryPoints.get(position).clone();
         
         entryPoints.remove(position.intValue());
         createEntryPoints(item, reference);
         Collections.sort(entryPoints);
         updateEntryPoints();
+        
         return true;
     }
     
     private Integer getBestEntryPoint(Item item){
     	this.volumeFake = 0D;
-    	Integer index = null;
-
-		index = calculateBestEntryPoint(item);
+    	Integer index = calculateBestEntryPoint(item);
 		
 		item.switchWidthLength();
 		Integer i = calculateBestEntryPoint(item);
@@ -79,7 +74,16 @@ public class Container {
 
         return index;
     } 
-
+    
+    private boolean fits(Item item, Point point){
+    	if(item.getMeasures().getWidth() <= point.getWidth().getEnd() - point.getWidth().getBegin()) { 
+            if (item.getMeasures().getLength() <= point.getLength().getEnd() - point.getLength().getBegin()) {
+            	return true;
+            }
+    	}    
+    	return false;
+    }
+    
 	private void updateMeasuresFake(Item item, Point point){
 		if(point.getWidth().getBegin() + item.getMeasures().getWidth() > measures.getWidth()){
     		measuresFake.setWidth(point.getWidth().getBegin() + item.getMeasures().getWidth());
@@ -99,29 +103,19 @@ public class Container {
     		measuresFake.setHeight(measures.getHeight());
     	}
 	}	
-    
-    private boolean fits(Item item, Point point){
-    	if(item.getMeasures().getWidth() <= point.getWidth().getEnd() - point.getWidth().getBegin()) { 
-            if (item.getMeasures().getLength() <= point.getLength().getEnd() - point.getLength().getBegin()) {
-            	return true;
-            }
-    	}    
-    	return false;
-    }
 
-    private void addItem(Item item, Point point){
-
-        // Update the point used and insert it into the item
+    private void add(Item item, Point point){
         point.getWidth().setEnd(point.getWidth().getBegin() + item.getMeasures().getWidth());
         point.getLength().setEnd(point.getLength().getBegin() + item.getMeasures().getLength());
         point.getHeight().setEnd(point.getHeight().getBegin() + item.getMeasures().getHeight());
         
-        // add item in a list items
         item.setPoint(point);
         items.add(item);
+        updateContainerSize(point);
+    }
 
-        // update the bin sizes
-        if(point.getWidth().getEnd() > measures.getWidth()){
+	private void updateContainerSize(Point point) {
+		if(point.getWidth().getEnd() > measures.getWidth()){
         	measures.setWidth(point.getWidth().getEnd());
         }
 
@@ -132,22 +126,16 @@ public class Container {
 		if(point.getHeight().getEnd() > measures.getHeight()){
 			measures.setHeight(point.getHeight().getEnd());
         }
-        
-    }
+	}
 
     private void createEntryPoints(Item item, Point reference){
-
-    	// Checks if the item was placed in the base of bin
     	if(reference.getHeight().getBegin() == 0){
-    		
-    		// Create the width point when item was placed in the base of bin
             Line w = new Line(item.getPoint().getWidth().getEnd(), restrictions.getMaxSide());
             Line l = new Line(item.getPoint().getLength().getBegin(), restrictions.getMaxSide());
             Line h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
             Point point = new Point(w, l, h);
             entryPoints.add(point);
         
-            // Create the length point when item was placed in the base of bin
             w = new Line(item.getPoint().getWidth().getBegin(), restrictions.getMaxSide());
             l = new Line(item.getPoint().getLength().getEnd(), restrictions.getMaxSide());
             h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
@@ -155,15 +143,12 @@ public class Container {
             entryPoints.add(point);
             
     	} else {
-    		
-    		// Create the width point when item was placed above the base of bin
             Line w = new Line(item.getPoint().getWidth().getEnd(), reference.getWidth().getEnd());
             Line l = new Line(item.getPoint().getLength().getBegin(), reference.getLength().getEnd());
             Line h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
             Point point = new Point(w, l, h);
             entryPoints.add(point);
         
-            // Create the length point when item was placed above the base of bin
             w = new Line(item.getPoint().getWidth().getBegin(), reference.getWidth().getEnd());
             l = new Line(item.getPoint().getLength().getEnd(), reference.getLength().getEnd());
             h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
@@ -172,7 +157,6 @@ public class Container {
     		
     	}
     	
-    	// Create the top point. Top point is always the same when the item is placed above or in the base of bin
     	Line w = new Line(item.getPoint().getWidth().getBegin(), item.getPoint().getWidth().getEnd());
     	Line l = new Line(item.getPoint().getLength().getBegin(), item.getPoint().getLength().getEnd());
     	Line h = new Line(item.getPoint().getHeight().getEnd(), restrictions.getMaxSide());

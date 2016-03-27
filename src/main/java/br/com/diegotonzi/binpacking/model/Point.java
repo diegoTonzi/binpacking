@@ -38,7 +38,7 @@ public class Point implements Comparable<Point> {
     }
     
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    protected Point clone() {
         return new Point(new Line(this.width.getBegin(), this.width.getEnd()), new Line(this.length.getBegin(), this.length.getEnd()), new Line(this.height.getBegin(), this.height.getEnd()));
     }
     
