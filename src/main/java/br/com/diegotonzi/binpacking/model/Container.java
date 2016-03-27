@@ -76,8 +76,8 @@ public class Container {
     } 
     
     private boolean fits(Item item, Point point){
-    	if(item.getMeasures().getWidth() <= point.getWidth().getEnd() - point.getWidth().getBegin()) { 
-            if (item.getMeasures().getLength() <= point.getLength().getEnd() - point.getLength().getBegin()) {
+    	if(item.getWidth() <= point.getWidth().getEnd() - point.getWidth().getBegin()) { 
+            if (item.getLength() <= point.getLength().getEnd() - point.getLength().getBegin()) {
             	return true;
             }
     	}    
@@ -85,29 +85,29 @@ public class Container {
     }
     
 	private void updateMeasuresFake(Item item, Point point){
-		if(point.getWidth().getBegin() + item.getMeasures().getWidth() > measures.getWidth()){
-    		measuresFake.setWidth(point.getWidth().getBegin() + item.getMeasures().getWidth());
+		if(point.getWidth().getBegin() + item.getWidth() > measures.getWidth()){
+    		measuresFake.setWidth(point.getWidth().getBegin() + item.getWidth());
     	} else {
     		measuresFake.setWidth(measures.getWidth());
     	}
     	
-    	if(point.getLength().getBegin() + item.getMeasures().getLength() > measures.getLength()){
-    		measuresFake.setLength(point.getLength().getBegin() + item.getMeasures().getLength());
+    	if(point.getLength().getBegin() + item.getLength() > measures.getLength()){
+    		measuresFake.setLength(point.getLength().getBegin() + item.getLength());
     	} else {
     		measuresFake.setLength(measures.getLength());
     	}
     			
-    	if(point.getHeight().getBegin() + item.getMeasures().getHeight() > measures.getHeight()){
-    		measuresFake.setHeight(point.getHeight().getBegin() + item.getMeasures().getHeight());
+    	if(point.getHeight().getBegin() + item.getHeight() > measures.getHeight()){
+    		measuresFake.setHeight(point.getHeight().getBegin() + item.getHeight());
     	} else {
     		measuresFake.setHeight(measures.getHeight());
     	}
 	}	
 
     private void add(Item item, Point point){
-        point.getWidth().setEnd(point.getWidth().getBegin() + item.getMeasures().getWidth());
-        point.getLength().setEnd(point.getLength().getBegin() + item.getMeasures().getLength());
-        point.getHeight().setEnd(point.getHeight().getBegin() + item.getMeasures().getHeight());
+        point.getWidth().setEnd(point.getWidth().getBegin() + item.getWidth());
+        point.getLength().setEnd(point.getLength().getBegin() + item.getLength());
+        point.getHeight().setEnd(point.getHeight().getBegin() + item.getHeight());
         
         item.setPoint(point);
         items.add(item);
@@ -129,7 +129,7 @@ public class Container {
 	}
 
     private void createEntryPoints(Item item, Point reference){
-    	if(reference.getHeight().getBegin() == 0){
+    	if(reference.isInBase()){
             Line w = new Line(item.getPoint().getWidth().getEnd(), restrictions.getMaxSide());
             Line l = new Line(item.getPoint().getLength().getBegin(), restrictions.getMaxSide());
             Line h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
@@ -166,69 +166,38 @@ public class Container {
     }
 
     private void updateEntryPoints(){
-
     	for (Point entryPoint : entryPoints) {
             for (Item item : items) {
-                
-                // Update the entry points that are in the base of bin.
-                if(entryPoint.getHeight().getBegin() == 0){
-                    
-                    // Checks if an item intersects the line width of the point
-                    if(item.getPoint().getWidth().getBegin() >= entryPoint.getWidth().getBegin()){
-                        if(item.getPoint().getLength().getBegin() < entryPoint.getLength().getEnd()){
-                            if(item.getPoint().getLength().getEnd() > entryPoint.getLength().getBegin()){   
-                                if(entryPoint.getWidth().getEnd() > item.getPoint().getWidth().getBegin()){ 
-                                    entryPoint.getWidth().setEnd(item.getPoint().getWidth().getBegin());
-                                }
-                            }
-                        }
-                    }
-                    
-                    // Checks if an item intersects the line length of the point
-                    if(item.getPoint().getLength().getBegin() >= entryPoint.getLength().getBegin()){
-                        if(item.getPoint().getWidth().getBegin() < entryPoint.getWidth().getEnd()){
-                            if(item.getPoint().getWidth().getEnd() > entryPoint.getWidth().getBegin()){
-                                if(entryPoint.getLength().getEnd() > item.getPoint().getLength().getBegin()){
-                                    entryPoint.getLength().setEnd(item.getPoint().getLength().getBegin());
-                                }
-                            }
-                        }
-                    }
-                  
-                } else {
-                	
-                	// Checks if the item and the entryPoint are in the same Height
-                	if(item.getPoint().getHeight().getBegin() == entryPoint.getHeight().getBegin()){
-                		
-                		// Checks if an item intersects the line width of the point
-	                    if(item.getPoint().getWidth().getBegin() >= entryPoint.getWidth().getBegin()){
-	                        if(item.getPoint().getLength().getBegin() < entryPoint.getLength().getEnd()){
-	                            if(item.getPoint().getLength().getEnd() > entryPoint.getLength().getBegin()){   
-	                                if(entryPoint.getWidth().getEnd() > item.getPoint().getWidth().getBegin()){ 
-	                                    entryPoint.getWidth().setEnd(item.getPoint().getWidth().getBegin());
-	                                }
-	                            }
-	                        }
-	                    }
-                	
-	                    // Checks if an item intersects the line length of the point
-	                    if(item.getPoint().getLength().getBegin() >= entryPoint.getLength().getBegin()){
-	                        if(item.getPoint().getWidth().getBegin() < entryPoint.getWidth().getEnd()){
-	                            if(item.getPoint().getWidth().getEnd() > entryPoint.getWidth().getBegin()){
-	                                if(entryPoint.getLength().getEnd() > item.getPoint().getLength().getBegin()){
-	                                    entryPoint.getLength().setEnd(item.getPoint().getLength().getBegin());
-	                                }
-	                            }
-	                        }
-	                    }
-	                    
-                	}          
-                	
+                if(entryPoint.isInBase()){
+                    updateEntryPoints(entryPoint, item);
+                } else if(item.getPoint().getHeight().getBegin() == entryPoint.getHeight().getBegin()){
+                	updateEntryPoints(entryPoint, item);
                 }
-                
             }
         }
     }
+
+	private void updateEntryPoints(Point entryPoint, Item item) {
+		if(item.getPoint().getWidth().getBegin() >= entryPoint.getWidth().getBegin()){
+		    if(item.getPoint().getLength().getBegin() < entryPoint.getLength().getEnd()){
+		        if(item.getPoint().getLength().getEnd() > entryPoint.getLength().getBegin()){   
+		            if(entryPoint.getWidth().getEnd() > item.getPoint().getWidth().getBegin()){ 
+		                entryPoint.getWidth().setEnd(item.getPoint().getWidth().getBegin());
+		            }
+		        }
+		    }
+		}
+		
+		if(item.getPoint().getLength().getBegin() >= entryPoint.getLength().getBegin()){
+		    if(item.getPoint().getWidth().getBegin() < entryPoint.getWidth().getEnd()){
+		        if(item.getPoint().getWidth().getEnd() > entryPoint.getWidth().getBegin()){
+		            if(entryPoint.getLength().getEnd() > item.getPoint().getLength().getBegin()){
+		                entryPoint.getLength().setEnd(item.getPoint().getLength().getBegin());
+		            }
+		        }
+		    }
+		}
+	}
     
     public Measures getMeasures(){
     	return this.measures;

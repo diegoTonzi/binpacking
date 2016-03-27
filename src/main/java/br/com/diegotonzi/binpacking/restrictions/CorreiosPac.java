@@ -56,8 +56,8 @@ public class CorreiosPac implements Restrictions {
      * @return True when the item exceeds the maximum size allowed. False otherwise
      */
     public boolean isMaxRestrictionsViolated(Item item){
-        if((item.getMeasures().getWidth() + item.getMeasures().getLength() + item.getMeasures().getHeight()) > MAX_TOTAL_SIZE_BIN) return true;
-        if(item.getMeasures().getWidth() > MAX_SIDE || item.getMeasures().getLength() > MAX_SIDE || item.getMeasures().getHeight() > MAX_SIDE) return true;
+        if((item.getWidth() + item.getLength() + item.getHeight()) > MAX_TOTAL_SIZE_BIN) return true;
+        if(item.getWidth() > MAX_SIDE || item.getLength() > MAX_SIDE || item.getHeight() > MAX_SIDE) return true;
         return false;
     }
     

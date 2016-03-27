@@ -23,6 +23,10 @@ public class Point implements Comparable<Point> {
     public Line getHeight() {
         return height;
     }
+    
+    public boolean isInBase(){
+    	return this.height.getBegin() == 0 ? true : false;
+    }
  
     @Override
     public int compareTo(Point point) {

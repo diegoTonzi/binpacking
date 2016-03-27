@@ -19,8 +19,20 @@ public class Item implements Comparable<Item> {
     	return this.id;
     }
     
-    public Measures getMeasures(){
-    	return this.measures;
+    public Double getWidth(){
+    	return measures.getWidth();
+    }
+    
+    public Double getLength(){
+    	return measures.getLength();
+    }
+
+	public Double getHeight(){
+    	return measures.getHeight();
+    }
+	
+	public Double getWeight(){
+    	return measures.getWeight();
     }
     
     public boolean canRotateVerticaly(){
@@ -65,7 +77,7 @@ public class Item implements Comparable<Item> {
 
     @Override
     public int compareTo(Item item) {   
-        return this.measures.compareTo(item.getMeasures());
+        return this.measures.compareTo(item.measures);
     }
     
     @Override
