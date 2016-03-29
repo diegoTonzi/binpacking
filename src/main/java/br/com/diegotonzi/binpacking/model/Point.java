@@ -2,9 +2,9 @@ package br.com.diegotonzi.binpacking.model;
 
 public class Point implements Comparable<Point> {
     
-    private Line width;
-    private Line length;
-    private Line height;
+    private final Line width;
+    private final Line length;
+    private final Line height;
     
     public Point(Line width, Line length, Line height) {
         this.width = width;
@@ -48,7 +48,7 @@ public class Point implements Comparable<Point> {
     
     @Override
     public String toString() {
-        return "Point Lines {width: " + this.width + ", length: " + this.length + ", height: " + this.height + "}";
+        return "Point [W: " + this.width + ", L: " + this.length + ", H: " + this.height + "]";
     }
 
 }

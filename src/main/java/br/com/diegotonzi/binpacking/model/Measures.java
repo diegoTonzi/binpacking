@@ -34,15 +34,7 @@ public class Measures implements Comparable<Measures>{
 	
 	@Override
 	public String toString() {
-		return new StringBuilder()
-				.append("[Width: " + this.width)
-				.append(", Length: " + this.length)
-				.append(", Height: " + this.height )
-				.append(", Volume: " + this.getVolume() )
-				.append(", Sum of Sides: " + this.getSumOfSides() )
-				.append(", Weight: " + this.weight )
-				.append("]")
-				.toString();
+		return "[W: " + this.width + ", L: " + this.length + ", H: " + this.height + ", WG: " + this.weight +"]";
 	}
 
 	public Double getWidth() {

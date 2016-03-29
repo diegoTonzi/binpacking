@@ -221,11 +221,9 @@ public class Container {
     
     @Override
     public String toString() {
-        String result = "Container items: " +  items.size() + "\n";
-        result += "Container Volume: " + measures.getVolume();
-        result += "Container sizes {width: " + measures.getWidth() + ", length: " + measures.getLength() + ", height: " + measures.getHeight() + "}";
-        
-        return result;
+        return items.size() + " items \n"
+        		+ "Volume: " + measures.getVolume() + "\n"
+        		+ "Measures: [W: " + measures.getWidth() + ", L: " + measures.getLength() + ", H: " + measures.getHeight() + "]\n";
     }
     
 }

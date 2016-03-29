@@ -1,7 +1,9 @@
 package br.com.diegotonzi.binpacking.controller;
 
 import java.security.InvalidParameterException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class PackingController {
     private Restrictions binRestrictions;
     private boolean viewMode = false;
     private List<DrawBin> drawList;
+    private Calendar startPacking;
+    private Calendar endPacking;
     
     public PackingController(List<Item> itens, Restrictions binRestrictions, boolean viewMode) {
         this.binRestrictions = binRestrictions;
@@ -39,6 +43,8 @@ public class PackingController {
     }
 
     public void arrangeItens() throws InvalidParameterException{
+    	this.startPacking = Calendar.getInstance();
+    	
         for (Item item : itens) {
             if(containers.get(0).getRestrictions().isMaxRestrictionsViolated(item))
                 throw new InvalidParameterException("There are products that exceed the maximum size allowed for Correios");
@@ -72,6 +78,7 @@ public class PackingController {
             }
         }
 
+        this.endPacking = Calendar.getInstance();
     }
 
     private void createBin(){
@@ -85,7 +92,15 @@ public class PackingController {
         return containers;
     }
 
-    public void printResult(){
+    public Calendar getStartPacking() {
+		return startPacking;
+	}
+
+	public Calendar getEndPacking() {
+		return endPacking;
+	}
+
+	public void printResult(){
         int count = 0;
         for (Container container : containers) {
             count++;
@@ -98,6 +113,13 @@ public class PackingController {
             }
             System.out.println(itemsStr);   
         }
+        
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyy - HH:mm:ss:SSS");
+        System.out.println("------------------------------------------------------------------------------------------------------------\n");
+        System.out.println("Start Packing: " + fmt.format(startPacking.getTime()));
+        System.out.println("End Packing: " + fmt.format(endPacking.getTime()));
+        System.out.println("Total time: " + (endPacking.getTimeInMillis() - startPacking.getTimeInMillis()) + " millis");
+        
     }
     
 }

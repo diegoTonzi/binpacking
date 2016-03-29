@@ -28,7 +28,7 @@ public class Line {
 
     @Override
     public String toString() {
-        return "{" + begin + ", " + end + "}";
+        return "(" + begin + ", " + end + ")";
     }
 
 }

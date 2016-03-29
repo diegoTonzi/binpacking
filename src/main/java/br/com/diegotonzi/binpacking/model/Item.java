@@ -88,7 +88,7 @@ public class Item implements Comparable<Item> {
     
     @Override
     public String toString() {
-        return id + "[width: " + this.measures.getWidth() + ", length: " + this.measures.getLength() + ", height: " + this.measures.getHeight() + "] - " + this.point.toString();
+        return id + ": " + measures.toString() + " - " + point.toString();
     }
     
 }
