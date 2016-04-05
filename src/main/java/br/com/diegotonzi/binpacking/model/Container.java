@@ -61,8 +61,10 @@ public class Container {
         Integer index = null;
         
         for (int i = 0; i < entryPoints.size(); i++) {
-            if(fits(item, entryPoints.get(i))) { 
-            	updateMeasuresFake(item, entryPoints.get(i));
+        	Point point = entryPoints.get(i);
+        	
+            if(item.fits(point)) { 
+            	updateMeasuresFake(item, point);
                 if(!restrictions.isMaxRestrictionsViolated(this)){
                     if (measuresFake.getVolume() < this.volumeFake || this.volumeFake == 0) {
                     	this.volumeFake = measuresFake.getVolume();
@@ -74,15 +76,6 @@ public class Container {
 
         return index;
     } 
-    
-    private boolean fits(Item item, Point point){
-    	if(item.getWidth() <= point.getWidth().getEnd() - point.getWidth().getBegin()) { 
-            if (item.getLength() <= point.getLength().getEnd() - point.getLength().getBegin()) {
-            	return true;
-            }
-    	}    
-    	return false;
-    }
     
 	private void updateMeasuresFake(Item item, Point point){
 		if(point.getWidth().getBegin() + item.getWidth() > measures.getWidth()){
@@ -178,24 +171,11 @@ public class Container {
     }
 
 	private void updateEntryPoints(Point entryPoint, Item item) {
-		if(item.getPoint().getWidth().getBegin() >= entryPoint.getWidth().getBegin()){
-		    if(item.getPoint().getLength().getBegin() < entryPoint.getLength().getEnd()){
-		        if(item.getPoint().getLength().getEnd() > entryPoint.getLength().getBegin()){   
-		            if(entryPoint.getWidth().getEnd() > item.getPoint().getWidth().getBegin()){ 
-		                entryPoint.getWidth().setEnd(item.getPoint().getWidth().getBegin());
-		            }
-		        }
-		    }
+		if(item.getPoint().isIntersectWidth(entryPoint)){
+			entryPoint.getWidth().setEnd(item.getPoint().getWidth().getBegin());
 		}
-		
-		if(item.getPoint().getLength().getBegin() >= entryPoint.getLength().getBegin()){
-		    if(item.getPoint().getWidth().getBegin() < entryPoint.getWidth().getEnd()){
-		        if(item.getPoint().getWidth().getEnd() > entryPoint.getWidth().getBegin()){
-		            if(entryPoint.getLength().getEnd() > item.getPoint().getLength().getBegin()){
-		                entryPoint.getLength().setEnd(item.getPoint().getLength().getBegin());
-		            }
-		        }
-		    }
+		if(item.getPoint().isIntersectLength(entryPoint)){
+			entryPoint.getLength().setEnd(item.getPoint().getLength().getBegin());
 		}
 	}
     

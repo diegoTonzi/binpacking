@@ -24,6 +24,32 @@ public class Point implements Comparable<Point> {
         return height;
     }
     
+    public boolean isIntersectWidth(Point point){
+    	if(this.width.getBegin() >= point.width.getBegin()){
+		    if(this.length.getBegin() < point.length.getEnd()){
+		        if(this.length.getEnd() > point.length.getBegin()){   
+		            if(point.width.getEnd() > this.width.getBegin()){ 
+		                return true;
+		            }
+		        }
+		    }
+		}
+    	return false;
+    }
+    
+    public boolean isIntersectLength(Point point){
+    	if(this.length.getBegin() >= point.length.getBegin()){
+		    if(this.width.getBegin() < point.width.getEnd()){
+		        if(this.width.getEnd() > point.width.getBegin()){
+		            if(point.length.getEnd() > this.length.getBegin()){
+		                return true;
+		            }
+		        }
+		    }
+		}
+    	return false;
+    }
+    
     public boolean isInBase(){
     	return this.height.getBegin() == 0 ? true : false;
     }

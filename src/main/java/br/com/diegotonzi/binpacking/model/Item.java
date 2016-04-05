@@ -14,37 +14,18 @@ public class Item implements Comparable<Item> {
         this.rotateVerticaly = rotateVerticaly;
         this.point = new Point(new Line(0.0, 0.0), new Line(0.0, 0.0), new Line(0.0, 0.0));
     }
-
-    public String getId(){
-    	return this.id;
-    }
     
-    public Double getWidth(){
-    	return measures.getWidth();
-    }
-    
-    public Double getLength(){
-    	return measures.getLength();
+    public boolean fits(Point point){
+    	if(measures.getWidth() <= point.getWidth().getEnd() - point.getWidth().getBegin()) { 
+            if (measures.getLength() <= point.getLength().getEnd() - point.getLength().getBegin()) {
+            	return true;
+            }
+    	}    
+    	return false;
     }
 
-	public Double getHeight(){
-    	return measures.getHeight();
-    }
-	
-	public Double getWeight(){
-    	return measures.getWeight();
-    }
-    
     public boolean canRotateVerticaly(){
     	return this.rotateVerticaly;
-    }
-    
-    public Point getPoint(){
-        return this.point;
-    }
-    
-    public void setPoint(Point point){
-        this.point = point;
     }
     
     public void switchWidthLength(){
@@ -89,6 +70,34 @@ public class Item implements Comparable<Item> {
     @Override
     public String toString() {
         return id + ": " + measures.toString() + " - " + point.toString();
+    }
+    
+    public String getId(){
+    	return this.id;
+    }
+    
+    public Double getWidth(){
+    	return measures.getWidth();
+    }
+    
+    public Double getLength(){
+    	return measures.getLength();
+    }
+
+	public Double getHeight(){
+    	return measures.getHeight();
+    }
+	
+	public Double getWeight(){
+    	return measures.getWeight();
+    }
+	
+	public Point getPoint(){
+        return this.point;
+    }
+    
+    public void setPoint(Point point){
+        this.point = point;
     }
     
 }
