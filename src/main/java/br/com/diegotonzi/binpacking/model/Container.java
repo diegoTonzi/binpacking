@@ -123,47 +123,53 @@ public class Container {
 
     private void createEntryPoints(Item item, Point reference){
     	if(reference.isInBase()){
-            Line w = new Line(item.getPoint().getWidth().getEnd(), restrictions.getMaxSide());
-            Line l = new Line(item.getPoint().getLength().getBegin(), restrictions.getMaxSide());
-            Line h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
-            Point point = new Point(w, l, h);
-            entryPoints.add(point);
-        
-            w = new Line(item.getPoint().getWidth().getBegin(), restrictions.getMaxSide());
-            l = new Line(item.getPoint().getLength().getEnd(), restrictions.getMaxSide());
-            h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
-            point = new Point(w, l, h);
-            entryPoints.add(point);
-            
+            createPointsInBase(item);
     	} else {
-            Line w = new Line(item.getPoint().getWidth().getEnd(), reference.getWidth().getEnd());
-            Line l = new Line(item.getPoint().getLength().getBegin(), reference.getLength().getEnd());
-            Line h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
-            Point point = new Point(w, l, h);
-            entryPoints.add(point);
-        
-            w = new Line(item.getPoint().getWidth().getBegin(), reference.getWidth().getEnd());
-            l = new Line(item.getPoint().getLength().getEnd(), reference.getLength().getEnd());
-            h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
-            point = new Point(w, l, h);
-            entryPoints.add(point);
-    		
+            createPointsAboveBase(item, reference);
     	}
-    	
-    	Line w = new Line(item.getPoint().getWidth().getBegin(), item.getPoint().getWidth().getEnd());
+    	updatePointLineHeight(item);
+    }
+
+	private void createPointsInBase(Item item) {
+		Line w = new Line(item.getPoint().getWidth().getEnd(), restrictions.getMaxSide());
+		Line l = new Line(item.getPoint().getLength().getBegin(), restrictions.getMaxSide());
+		Line h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
+		Point point = new Point(w, l, h);
+		entryPoints.add(point);
+      
+		w = new Line(item.getPoint().getWidth().getBegin(), restrictions.getMaxSide());
+		l = new Line(item.getPoint().getLength().getEnd(), restrictions.getMaxSide());
+		h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
+		point = new Point(w, l, h);
+		entryPoints.add(point);
+	}
+
+	private void createPointsAboveBase(Item item, Point reference) {
+		Line w = new Line(item.getPoint().getWidth().getEnd(), reference.getWidth().getEnd());
+		Line l = new Line(item.getPoint().getLength().getBegin(), reference.getLength().getEnd());
+		Line h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
+		Point point = new Point(w, l, h);
+		entryPoints.add(point);
+      
+		w = new Line(item.getPoint().getWidth().getBegin(), reference.getWidth().getEnd());
+		l = new Line(item.getPoint().getLength().getEnd(), reference.getLength().getEnd());
+		h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
+		point = new Point(w, l, h);
+		entryPoints.add(point);
+	}
+
+	private void updatePointLineHeight(Item item) {
+		Line w = new Line(item.getPoint().getWidth().getBegin(), item.getPoint().getWidth().getEnd());
     	Line l = new Line(item.getPoint().getLength().getBegin(), item.getPoint().getLength().getEnd());
     	Line h = new Line(item.getPoint().getHeight().getEnd(), restrictions.getMaxSide());
     	Point point = new Point(w, l, h);
         entryPoints.add(point);
-
-    }
-
+	}
+	
     private void updateEntryPoints(){
     	for (Point entryPoint : entryPoints) {
             for (Item item : items) {
-                if(entryPoint.isInBase()){
-                    updateEntryPoints(entryPoint, item);
-                } else if(item.getPoint().getHeight().getBegin() == entryPoint.getHeight().getBegin()){
+                if(entryPoint.isInBase() || entryPoint.isSameHeight(item)){
                 	updateEntryPoints(entryPoint, item);
                 }
             }
@@ -171,10 +177,10 @@ public class Container {
     }
 
 	private void updateEntryPoints(Point entryPoint, Item item) {
-		if(item.getPoint().isIntersectWidth(entryPoint)){
+		if(item.getPoint().isIntersectLineWidth(entryPoint)){
 			entryPoint.getWidth().setEnd(item.getPoint().getWidth().getBegin());
 		}
-		if(item.getPoint().isIntersectLength(entryPoint)){
+		if(item.getPoint().isIntersectLineLength(entryPoint)){
 			entryPoint.getLength().setEnd(item.getPoint().getLength().getBegin());
 		}
 	}

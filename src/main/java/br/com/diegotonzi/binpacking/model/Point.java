@@ -24,7 +24,7 @@ public class Point implements Comparable<Point> {
         return height;
     }
     
-    public boolean isIntersectWidth(Point point){
+    public boolean isIntersectLineWidth(Point point){
     	if(this.width.getBegin() >= point.width.getBegin()){
 		    if(this.length.getBegin() < point.length.getEnd()){
 		        if(this.length.getEnd() > point.length.getBegin()){   
@@ -37,7 +37,7 @@ public class Point implements Comparable<Point> {
     	return false;
     }
     
-    public boolean isIntersectLength(Point point){
+    public boolean isIntersectLineLength(Point point){
     	if(this.length.getBegin() >= point.length.getBegin()){
 		    if(this.width.getBegin() < point.width.getEnd()){
 		        if(this.width.getEnd() > point.width.getBegin()){
@@ -52,6 +52,10 @@ public class Point implements Comparable<Point> {
     
     public boolean isInBase(){
     	return this.height.getBegin() == 0 ? true : false;
+    }
+    
+    public boolean isSameHeight(Item item){
+    	return item.getPoint().height.getBegin() == this.height.getBegin();
     }
  
     @Override
