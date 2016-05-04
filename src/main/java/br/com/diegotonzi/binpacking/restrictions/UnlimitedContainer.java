@@ -6,13 +6,13 @@ import br.com.diegotonzi.binpacking.model.Item;
 public class UnlimitedContainer implements Restrictions {
 
     private final Double MIN_HEIGHT_CONTAINER = 0D;
-    private final Double MAX_HEIGHT_CONTAINER = Double.MAX_VALUE;
+    private final Double MAX_HEIGHT_CONTAINER = 100D;
     
     private final Double MIN_WIDTH_CONTAINER = 0D;
-    private final Double MAX_WIDTH_CONTAINER = Double.MAX_VALUE;
+    private final Double MAX_WIDTH_CONTAINER = 100D;
     
     private final Double MIN_LENGTH_CONTAINER = 0D;
-    private final Double MAX_LENGTH_CONTAINER = Double.MAX_VALUE;
+    private final Double MAX_LENGTH_CONTAINER = 100D;
     
     private final Double MIN_WEIGHT_CONTAINER = 0D;
     private final Double MAX_WEIGHT_CONTAINER = Double.MAX_VALUE;

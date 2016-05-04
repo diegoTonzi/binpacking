@@ -24,15 +24,6 @@ public class DrawContainer extends JComponent {
 		this.setPreferredSize(new Dimension(600, 600));
 		frame.getContentPane().add(this, BorderLayout.CENTER);
 		
-		/*
-		JScrollPane scrollPane = new JScrollPane(this);  
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);  
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);  
-		frame.getContentPane().add(scrollPane);  
-
-		frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-		*/
-		
 		frame.pack();
 		frame.setVisible(true);
 	}

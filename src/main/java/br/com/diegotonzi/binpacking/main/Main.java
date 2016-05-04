@@ -12,7 +12,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
-			List<Item> items = ItemHelper.getStaticItems();
+			List<Item> items = ItemHelper.getitems();
 			PackingController controller = new PackingController(items, new UnlimitedContainer());
 			controller.setViewMode(true);
 			controller.arrangeItens();

@@ -25,6 +25,24 @@ public class ItemHelper {
 		return result.doubleValue();
 	}
 	
+	public static List<Item> getitems(){
+		List<Item> items = new ArrayList<>();
+		
+		Measures measures = new Measures(10D, 20D, 15D, 0D);
+		for (int i = 0; i < 60; i++) {
+			Item item = new Item(measures, String.valueOf(i), true);
+			items.add(item);
+		}
+		
+		measures = new Measures(10D, 12D, 10D, 0D);
+		for (int i = 0; i < 100; i++) {
+			Item item = new Item(measures, String.valueOf(60 + i), true);
+			items.add(item);
+		}
+		
+		return items;
+	}
+	
 	public static List<Item> getStaticItems(){
 		List<Item> items = new ArrayList<Item>();
 		
