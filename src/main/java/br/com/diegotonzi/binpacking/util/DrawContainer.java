@@ -44,8 +44,8 @@ public class DrawContainer extends JComponent {
 	}
 	
 	public void clear(){
-		if(container != null && container.getItens() != null){
-			this.container.getItens().clear();
+		if(container != null && container.getItems() != null){
+			this.container.getItems().clear();
 			repaint();
 		}
 	}
@@ -54,13 +54,13 @@ public class DrawContainer extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	
-		if(container != null && container.getItens() != null){
+		if(container != null && container.getItems() != null){
 			
-			g.drawString("Container items: " +  container.getItens().size(), 5 * SCALE, (container.getMeasures().getLength().intValue() + 10) * SCALE);
+			g.drawString("Container items: " +  container.getItems().size(), 5 * SCALE, (container.getMeasures().getLength().intValue() + 10) * SCALE);
 			g.drawString("Container sizes: [ Width: " + container.getMeasures().getWidth() + ", Length: " + container.getMeasures().getLength() + ", Height: " + container.getMeasures().getHeight() + " ]", 5 * SCALE, (container.getMeasures().getLength().intValue() + 14) * SCALE);
 			g.drawString("--------------------------------------------------------------------------------------------------------------", 5 * SCALE, (container.getMeasures().getLength().intValue() + 16) * SCALE);
 			//int count = 20;
-			for (Item item : container.getItens()) {
+			for (Item item : container.getItems()) {
 				//Color randomColor = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
 				g.drawRect(item.getPoint().getWidth().getBegin().intValue() * SCALE, item.getPoint().getLength().getBegin().intValue() * SCALE, item.getWidth().intValue() * SCALE, item.getLength().intValue() * SCALE);  
 				g.setColor(Color.BLACK); 

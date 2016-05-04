@@ -3,6 +3,7 @@ package br.com.diegotonzi.binpacking.model;
 public class Item implements Comparable<Item> {
     
 	private String id;
+	private String description;
     private Measures measures;
     private boolean rotateVerticaly;
     private Point point;
@@ -95,7 +96,19 @@ public class Item implements Comparable<Item> {
 	public Point getPoint(){
         return this.point;
     }
+	
+	public boolean isRotateVerticaly(){
+		return this.rotateVerticaly;
+	}
+	
+	public String getDescription(){
+		return this.description;
+	}
     
+	public void setDescription(String description){
+		this.description = description;
+	}
+	
     public void setPoint(Point point){
         this.point = point;
     }

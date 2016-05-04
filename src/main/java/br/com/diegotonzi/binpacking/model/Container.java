@@ -22,9 +22,9 @@ public class Container {
 		this.measuresFake = new Measures();
 		this.items = new ArrayList<Item>();
 		this.entryPoints = new ArrayList<Point>();
-		this.entryPoints.add(new Point(new Line(0D, restrictions.getMaxSide()), 
-				new Line(0D, restrictions.getMaxSide()),
-				new Line(0D, restrictions.getMaxSide())));
+		this.entryPoints.add(new Point(new Line(0D, restrictions.getMaxWidth()), 
+				new Line(0D, restrictions.getMaxLength()),
+				new Line(0D, restrictions.getMaxHeight())));
 	}
 
 	public boolean add(Item item) {
@@ -133,15 +133,15 @@ public class Container {
 	}
 
 	private void createPointsInBaseOfContainer(Item item) {
-		Line w = new Line(item.getPoint().getWidth().getEnd(), restrictions.getMaxSide());
-		Line l = new Line(item.getPoint().getLength().getBegin(), restrictions.getMaxSide());
-		Line h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
+		Line w = new Line(item.getPoint().getWidth().getEnd(), restrictions.getMaxWidth());
+		Line l = new Line(item.getPoint().getLength().getBegin(), restrictions.getMaxLength());
+		Line h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxHeight());
 		Point point = new Point(w, l, h);
 		entryPoints.add(point);
 
-		w = new Line(item.getPoint().getWidth().getBegin(), restrictions.getMaxSide());
-		l = new Line(item.getPoint().getLength().getEnd(), restrictions.getMaxSide());
-		h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
+		w = new Line(item.getPoint().getWidth().getBegin(), restrictions.getMaxWidth());
+		l = new Line(item.getPoint().getLength().getEnd(), restrictions.getMaxLength());
+		h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxHeight());
 		point = new Point(w, l, h);
 		entryPoints.add(point);
 	}
@@ -149,13 +149,13 @@ public class Container {
 	private void createPointsAboveBaseOfContainer(Item item, Point reference) {
 		Line w = new Line(item.getPoint().getWidth().getEnd(), reference.getWidth().getEnd());
 		Line l = new Line(item.getPoint().getLength().getBegin(), reference.getLength().getEnd());
-		Line h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
+		Line h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxHeight());
 		Point point = new Point(w, l, h);
 		entryPoints.add(point);
 
 		w = new Line(item.getPoint().getWidth().getBegin(), reference.getWidth().getEnd());
 		l = new Line(item.getPoint().getLength().getEnd(), reference.getLength().getEnd());
-		h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxSide());
+		h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxHeight());
 		point = new Point(w, l, h);
 		entryPoints.add(point);
 	}
@@ -163,7 +163,7 @@ public class Container {
 	private void updatePointLineHeight(Item item) {
 		Line w = new Line(item.getPoint().getWidth().getBegin(), item.getPoint().getWidth().getEnd());
 		Line l = new Line(item.getPoint().getLength().getBegin(), item.getPoint().getLength().getEnd());
-		Line h = new Line(item.getPoint().getHeight().getEnd(), restrictions.getMaxSide());
+		Line h = new Line(item.getPoint().getHeight().getEnd(), restrictions.getMaxHeight());
 		Point point = new Point(w, l, h);
 		entryPoints.add(point);
 	}
@@ -195,7 +195,7 @@ public class Container {
 		return this.measuresFake;
 	}
 
-	public List<Item> getItens() {
+	public List<Item> getItems() {
 		return this.items;
 	}
 

@@ -26,16 +26,10 @@ public class PackingController {
     private Calendar startPacking;
     private Calendar endPacking;
     
-    public PackingController(List<Item> itens, Restrictions containerRestrictions, boolean viewMode) {
+    public PackingController(List<Item> itens, Restrictions containerRestrictions) {
         this.restrictions = containerRestrictions;
         containers = new ArrayList<Container>();
         containers.add(new Container(this.restrictions));
-        
-        this.viewMode = viewMode;
-        if(this.viewMode){
-        	drawList = new ArrayList<DrawContainer>();
-        	drawList.add(new DrawContainer());
-        }
         
         this.itens = itens;
         for (Item item : itens) {
@@ -95,6 +89,15 @@ public class PackingController {
     public List<Container> getContainers(){
         return containers;
     }
+    
+    public void setViewMode(boolean viewMode){
+    	this.viewMode = viewMode;
+    	
+    	if(this.viewMode){
+        	drawList = new ArrayList<DrawContainer>();
+        	drawList.add(new DrawContainer());
+        }
+    }
 
     public Calendar getStartPacking() {
 		return startPacking;
@@ -112,7 +115,7 @@ public class PackingController {
             System.out.println("Container " + count);
             System.out.println(container.toString());
             String itemsStr = "Items:\n";
-            for (Item item : container.getItens()) {
+            for (Item item : container.getItems()) {
                 itemsStr += item.toString() + "\n";
             }
             System.out.println(itemsStr);   

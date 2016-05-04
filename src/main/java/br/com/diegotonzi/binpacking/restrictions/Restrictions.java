@@ -47,29 +47,25 @@ public interface Restrictions {
      */
     void maxRestrictionsViolated(Container container);
     
-    /**
-     * Minimum value allowed for the height of a container
-     */
     Double getMinHeight();
     
-    /**
-     * Minimum value allowed for the width of a container
-     */
+    Double getMaxHeight();
+    
     Double getMinWidth();
     
-    /**
-     * Minimum value allowed for the length of a container
-     */
+    Double getMaxWidth();
+    
     Double getMinLength();
+    
+    Double getMaxLength();
+    
+    Double getMinWeight();
+    
+    Double getMaxWeight();
     
     /**
      * Maximum value allowed for the sum of sides of a container
      */
     Double getMaxTotalSize();
     
-    /**
-     * Maximum value allowed for each sides of a container
-     */
-    Double getMaxSide();
-
 }
