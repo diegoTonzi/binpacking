@@ -50,7 +50,7 @@ public class Point implements Comparable<Point> {
     	return false;
     }
     
-    public boolean isInBase(){
+    public boolean isInBaseOfContainer(){
     	return this.height.getBegin() == 0 ? true : false;
     }
     

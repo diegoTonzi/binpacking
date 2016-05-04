@@ -10,35 +10,37 @@ import java.util.List;
 import br.com.diegotonzi.binpacking.model.Container;
 import br.com.diegotonzi.binpacking.model.Item;
 import br.com.diegotonzi.binpacking.restrictions.Restrictions;
-import br.com.diegotonzi.binpacking.util.DrawBin;
+import br.com.diegotonzi.binpacking.util.DrawContainer;
 
 /**
  * Class responsible for organizing items in containers. 
- * When a bin can't include another item, then, another bin is created
+ * When a Container can't include another item, then, another Container is created
  */
 public class PackingController {
 
     private List<Container> containers;
     private List<Item> itens;
-    private Restrictions binRestrictions;
+    private Restrictions restrictions;
     private boolean viewMode = false;
-    private List<DrawBin> drawList;
+    private List<DrawContainer> drawList;
     private Calendar startPacking;
     private Calendar endPacking;
     
-    public PackingController(List<Item> itens, Restrictions binRestrictions, boolean viewMode) {
-        this.binRestrictions = binRestrictions;
+    public PackingController(List<Item> itens, Restrictions containerRestrictions, boolean viewMode) {
+        this.restrictions = containerRestrictions;
         containers = new ArrayList<Container>();
-        containers.add(new Container(this.binRestrictions));
+        containers.add(new Container(this.restrictions));
         
         this.viewMode = viewMode;
         if(this.viewMode){
-        	drawList = new ArrayList<DrawBin>();
-        	drawList.add(new DrawBin());
+        	drawList = new ArrayList<DrawContainer>();
+        	drawList.add(new DrawContainer());
         }
         
         this.itens = itens;
-        for (Item item : itens) item.sortSides();
+        for (Item item : itens) {
+        	item.sortSides();
+        }
         Collections.sort(this.itens);
     }
 
@@ -55,10 +57,12 @@ public class PackingController {
             added = false;
             for (int i = 0; i < containers.size(); i++) {
                 added = containers.get(i).add(item);
-                if(added) break;
+                if(added) {
+                	break;
+                }
             }
             if(!added){
-                createBin();
+                createContainer();
                 containers.get(containers.size() - 1).add(item);
             }
 
@@ -73,22 +77,22 @@ public class PackingController {
         }
         
         for (Container container : containers) {
-            if(binRestrictions.isMinRestrictionsViolated(container)) {
-                binRestrictions.minRestrictionsViolated(container);
+            if(restrictions.isMinRestrictionsViolated(container)) {
+                restrictions.minRestrictionsViolated(container);
             }
         }
 
         this.endPacking = Calendar.getInstance();
     }
 
-    private void createBin(){
-        containers.add(new Container(this.binRestrictions));
+    private void createContainer(){
+        containers.add(new Container(this.restrictions));
         if(this.viewMode){
-        	drawList.add(new DrawBin());
+        	drawList.add(new DrawContainer());
         }
     }
     
-    public List<Container> getBins(){
+    public List<Container> getContainers(){
         return containers;
     }
 

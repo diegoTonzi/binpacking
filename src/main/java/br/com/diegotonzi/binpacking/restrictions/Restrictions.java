@@ -4,14 +4,14 @@ import br.com.diegotonzi.binpacking.model.Container;
 import br.com.diegotonzi.binpacking.model.Item;
 
 /**
- * Represents the size restrictions of the bin. <br/> 
+ * Represents the size restrictions of the container. <br/> 
 �* When items are packaged, one of the criteria used to decide if is necessary create a new package to accommodate the items is when the maximum and minimum sizes are reached. <br/> 
-�* So, this interface allows the algorithm use different packaging rules in relation to the size of the bins
+�* So, this interface allows the algorithm use different packaging rules in relation to the size of the containers
  */
 public interface Restrictions {
 
     /**
-     * Method used to verify if the bin is out of the minimum restrictions allowed.
+     * Method used to verify if the container is out of the minimum restrictions allowed.
      * If is not necessary to verify the minimums restrictions, only return false.
      * @param container used to verify the restrictions
      * @returns true if the minimum restrictions were violated, false otherwise.
@@ -25,7 +25,7 @@ public interface Restrictions {
     void minRestrictionsViolated(Container container);
     
     /**
-     * Method used to verify if the bin is out of the maximum restriction allowed.
+     * Method used to verify if the container is out of the maximum restriction allowed.
      * If is not necessary to verify the maximum restrictions, only return false.
      * @param container used to verify the restrictions
      * @returns true if the maximum restrictions were violated, false otherwise.
@@ -48,28 +48,28 @@ public interface Restrictions {
     void maxRestrictionsViolated(Container container);
     
     /**
-     * Minimum value allowed for the height of a bin
+     * Minimum value allowed for the height of a container
      */
     Double getMinHeight();
     
     /**
-     * Minimum value allowed for the width of a bin
+     * Minimum value allowed for the width of a container
      */
     Double getMinWidth();
     
     /**
-     * Minimum value allowed for the length of a bin
+     * Minimum value allowed for the length of a container
      */
     Double getMinLength();
     
     /**
-     * Maximum value allowed for the sum of sides of a bin
+     * Maximum value allowed for the sum of sides of a container
      */
     Double getMaxTotalSize();
     
     /**
-     * Maximum value allowed for each sides of a bin
+     * Maximum value allowed for each sides of a container
      */
     Double getMaxSide();
 
-}//Interface
+}

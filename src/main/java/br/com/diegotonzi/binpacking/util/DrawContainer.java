@@ -11,15 +11,13 @@ import javax.swing.JFrame;
 import br.com.diegotonzi.binpacking.model.Container;
 import br.com.diegotonzi.binpacking.model.Item;
 
-public class DrawBin extends JComponent {
+public class DrawContainer extends JComponent {
 
 	private Container container = null;
 	private final int SCALE = 5;
 	private static final long serialVersionUID = 1L;
 
-	public DrawBin() {
-		
-		
+	public DrawContainer() {
 		
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
@@ -77,4 +75,4 @@ public class DrawBin extends JComponent {
 	}
 	
 	
-}//Class
+}
