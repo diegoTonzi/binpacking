@@ -1,4 +1,4 @@
-package br.com.diegotonzi.binpacking.controller;
+package br.com.binpacking.controller;
 
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
@@ -7,10 +7,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.diegotonzi.binpacking.model.Container;
-import br.com.diegotonzi.binpacking.model.Item;
-import br.com.diegotonzi.binpacking.restrictions.Restrictions;
-import br.com.diegotonzi.binpacking.util.DrawContainer;
+import br.com.binpacking.model.Container;
+import br.com.binpacking.model.Item;
+import br.com.binpacking.restrictions.Restrictions;
+import br.com.binpacking.util.DrawContainer;
 
 /**
  * Class responsible for organizing items in containers. 

@@ -1,4 +1,4 @@
-package br.com.diegotonzi.binpacking.util;
+package br.com.binpacking.util;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,8 +8,8 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import br.com.diegotonzi.binpacking.model.Container;
-import br.com.diegotonzi.binpacking.model.Item;
+import br.com.binpacking.model.Container;
+import br.com.binpacking.model.Item;
 
 public class DrawContainer extends JComponent {
 

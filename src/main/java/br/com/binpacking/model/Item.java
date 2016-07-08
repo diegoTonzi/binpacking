@@ -1,4 +1,4 @@
-package br.com.diegotonzi.binpacking.model;
+package br.com.binpacking.model;
 
 public class Item implements Comparable<Item> {
     

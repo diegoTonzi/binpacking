@@ -1,10 +1,10 @@
-package br.com.diegotonzi.binpacking.model;
+package br.com.binpacking.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.diegotonzi.binpacking.restrictions.Restrictions;
+import br.com.binpacking.restrictions.Restrictions;
 
 public class Container {
 

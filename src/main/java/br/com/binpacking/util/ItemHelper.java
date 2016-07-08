@@ -1,14 +1,22 @@
-package br.com.diegotonzi.binpacking.util;
+package br.com.binpacking.util;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import br.com.diegotonzi.binpacking.model.Item;
-import br.com.diegotonzi.binpacking.model.Measures;
+import br.com.binpacking.model.Item;
+import br.com.binpacking.model.Measures;
 
 public class ItemHelper {
 
+	public static List<Item> getCubeItens(double faceCubeSize, int quantity){
+		List<Item> items = new ArrayList<Item>();
+		for (int i = 0; i < quantity; i++) {
+			Item item = new Item(new Measures(faceCubeSize, faceCubeSize, faceCubeSize, faceCubeSize), "id " + i, false);
+			items.add(item);
+		}
+		return items;
+	}
 	
 	public static List<Item> getRandomItens(int listSize){
 		List<Item> items = new ArrayList<Item>();

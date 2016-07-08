@@ -1,7 +1,7 @@
-package br.com.diegotonzi.binpacking.restrictions;
+package br.com.binpacking.restrictions;
 
-import br.com.diegotonzi.binpacking.model.Container;
-import br.com.diegotonzi.binpacking.model.Item;
+import br.com.binpacking.model.Container;
+import br.com.binpacking.model.Item;
 
 public class UnlimitedContainer implements Restrictions {
 
