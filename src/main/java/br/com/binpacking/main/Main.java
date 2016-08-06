@@ -3,23 +3,38 @@ package br.com.binpacking.main;
 import java.security.InvalidParameterException;
 import java.util.List;
 
-import br.com.binpacking.controller.PackingController;
-import br.com.binpacking.model.Item;
-import br.com.binpacking.restrictions.UnlimitedContainer;
+import br.com.binpacking.domain.Item;
+import br.com.binpacking.domain.Packer;
+import br.com.binpacking.domain.datatypes.Measures;
+import br.com.binpacking.restrictions.LimitedRestrictions;
+import br.com.binpacking.restrictions.Restrictions;
 import br.com.binpacking.util.ItemHelper;
 
 public class Main {
 
 	public static void main(String[] args) {
 		try {
-			List<Item> items = ItemHelper.getCubeItens(10, 1000);
-			PackingController controller = new PackingController(items, new UnlimitedContainer());
-			controller.setViewMode(true);
-			controller.arrangeItens();
-			controller.printResult();
+//			List<Item> items = ItemHelper.getCubeItens(10, 1001);
+//			List<Item> items = ItemHelper.getRandomItens(2000);
+			List<Item> items = ItemHelper.getStaticItems();
+			Restrictions restrictions = getLimitedRestriction();
+			new Packer.Pack(items)
+					.use(restrictions)
+//					.enableLog()
+					.enableGraphical()
+					.start();
+			
 		} catch (InvalidParameterException e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	private static Restrictions getLimitedRestriction(){
+		return new LimitedRestrictions(
+				new Measures(0D, 0D, 0D, 0D), 
+				new Measures(100D, 100D, 100D, Double.MAX_VALUE), 
+				new Measures(0D, 0D, 0D, 0D), 
+				new Measures(100D, 100D, 100D, Double.MAX_VALUE));
 	}
 
 }

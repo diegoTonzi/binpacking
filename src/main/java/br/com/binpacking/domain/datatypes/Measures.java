@@ -1,4 +1,4 @@
-package br.com.binpacking.model;
+package br.com.binpacking.domain.datatypes;
 
 public class Measures implements Comparable<Measures>{
 
@@ -30,6 +30,30 @@ public class Measures implements Comparable<Measures>{
         } else {
             return 0;
         }
+	}
+	
+	public boolean hasLessMeasures(Measures toCompare){
+		if(this.width < toCompare.getWidth() || 
+				this.length < toCompare.getLength() || 
+				this.height < toCompare.getHeight() ||
+				this.weight < toCompare.getWeight()){
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean hasGreaterMeasures(Measures toCompare){
+		if(this.width > toCompare.getWidth() || 
+				this.length > toCompare.getLength() || 
+				this.height > toCompare.getHeight() ||
+				this.weight > toCompare.getWeight()){
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	@Override

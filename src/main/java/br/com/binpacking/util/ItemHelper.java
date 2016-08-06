@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import br.com.binpacking.model.Item;
-import br.com.binpacking.model.Measures;
+import br.com.binpacking.domain.Item;
+import br.com.binpacking.domain.datatypes.Measures;
 
 public class ItemHelper {
 

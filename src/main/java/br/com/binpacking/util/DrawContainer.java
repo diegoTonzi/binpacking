@@ -8,8 +8,8 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import br.com.binpacking.model.Container;
-import br.com.binpacking.model.Item;
+import br.com.binpacking.domain.Container;
+import br.com.binpacking.domain.Item;
 
 public class DrawContainer extends JComponent {
 

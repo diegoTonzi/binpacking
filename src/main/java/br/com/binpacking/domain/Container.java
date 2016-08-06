@@ -1,9 +1,12 @@
-package br.com.binpacking.model;
+package br.com.binpacking.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import br.com.binpacking.domain.datatypes.Line;
+import br.com.binpacking.domain.datatypes.Measures;
+import br.com.binpacking.domain.datatypes.Point;
 import br.com.binpacking.restrictions.Restrictions;
 
 public class Container {
@@ -22,7 +25,8 @@ public class Container {
 		this.measuresFake = new Measures();
 		this.items = new ArrayList<Item>();
 		this.entryPoints = new ArrayList<Point>();
-		this.entryPoints.add(new Point(new Line(0D, restrictions.getMaxWidth()), 
+		this.entryPoints.add(new Point(
+				new Line(0D, restrictions.getMaxWidth()), 
 				new Line(0D, restrictions.getMaxLength()),
 				new Line(0D, restrictions.getMaxHeight())));
 	}
@@ -32,33 +36,41 @@ public class Container {
 		if (index == null) {
 			return false;
 		}
-
-		add(item, entryPoints.get(index).clone());
+		
 		Point reference = entryPoints.get(index).clone();
-
+		add(item, reference);
+		
 		entryPoints.remove(index.intValue());
 		createEntryPoints(item, reference);
-		Collections.sort(entryPoints);
+		
 		updateEntryPoints();
+		
+		Collections.sort(entryPoints);
+		
+		for (Point point : entryPoints) {
+			System.out.println(point);
+		}
+		
+		System.out.println("/n/n------------------------------------------------------------------/n/n");
 
 		return true;
 	}
-
+	
 	private Integer getBestEntryPoint(Item item) {
 		this.volumeFake = 0D;
 		Integer index = calculateBestEntryPoint(item);
 
 		item.switchWidthLength();
-		Integer i = calculateBestEntryPoint(item);
-		if (i == null) {
+		Integer rotatedIndex = calculateBestEntryPoint(item);
+		if (rotatedIndex == null) {
 			item.switchWidthLength();
 		} else {
-			index = i;
+			index = rotatedIndex;
 		}
 
 		return index;
 	}
-
+	
 	private Integer calculateBestEntryPoint(Item item) {
 		Integer index = null;
 
@@ -67,7 +79,7 @@ public class Container {
 
 			if (item.fits(point)) {
 				updateMeasuresFake(item, point);
-				if (!restrictions.isMaxRestrictionsViolated(this)) {
+				if (!restrictions.isMaxContainerRestrictionsViolated(this.measuresFake)) {
 					if (measuresFake.getVolume() < this.volumeFake || this.volumeFake == 0) {
 						this.volumeFake = measuresFake.getVolume();
 						index = i;
@@ -106,21 +118,24 @@ public class Container {
 
 		item.setPoint(point);
 		items.add(item);
-		updateContainerSize(point);
+		updateContainerSize(item);
 	}
 
-	private void updateContainerSize(Point point) {
-		if (point.getWidth().getEnd() > measures.getWidth()) {
-			measures.setWidth(point.getWidth().getEnd());
+	private void updateContainerSize(Item item) {
+		if (item.getPoint().getWidth().getEnd() > measures.getWidth()) {
+			measures.setWidth(item.getPoint().getWidth().getEnd());
 		}
 
-		if (point.getLength().getEnd() > measures.getLength()) {
-			measures.setLength(point.getLength().getEnd());
+		if (item.getPoint().getLength().getEnd() > measures.getLength()) {
+			measures.setLength(item.getPoint().getLength().getEnd());
 		}
 
-		if (point.getHeight().getEnd() > measures.getHeight()) {
-			measures.setHeight(point.getHeight().getEnd());
+		if (item.getPoint().getHeight().getEnd() > measures.getHeight()) {
+			measures.setHeight(item.getPoint().getHeight().getEnd());
 		}
+		
+		measures.setWeight(measures.getWeight() + item.getMeasures().getWeight());
+		
 	}
 
 	private void createEntryPoints(Item item, Point reference) {
@@ -209,8 +224,7 @@ public class Container {
 
 	@Override
 	public String toString() {
-		return items.size() + " items \n" + "Volume: " + measures.getVolume() + "\n" + "Measures: [W: "
-				+ measures.getWidth() + ", L: " + measures.getLength() + ", H: " + measures.getHeight() + "]\n";
+		return items.size() + " items \n" + "Volume: " + measures.getVolume() + "\n" + "Measures: " + measures.toString() + "\n";
 	}
 
 }

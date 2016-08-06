@@ -1,6 +1,6 @@
-package br.com.binpacking.model;
+package br.com.binpacking.domain.datatypes;
 
-public class Line {
+public class Line implements Comparable<Line> {
     
     private Double begin;
     private Double end;
@@ -8,6 +8,20 @@ public class Line {
     public Line(Double begin, Double end) {
         this.begin = begin;
         this.end = end;
+    }
+
+    @Override
+    public int compareTo(Line other){
+    	if(this.begin < other.begin){
+    		return -1;
+    	} else if(this.begin > other.begin){
+    		return 1;
+    	}
+    	return 0;
+    }
+    
+    public Double size(){
+    	return end - begin;
     }
 
     public Double getBegin() {

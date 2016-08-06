@@ -1,4 +1,6 @@
-package br.com.binpacking.model;
+package br.com.binpacking.domain.datatypes;
+
+import br.com.binpacking.domain.Item;
 
 public class Point implements Comparable<Point> {
     
@@ -59,9 +61,9 @@ public class Point implements Comparable<Point> {
     }
  
     @Override
-    public int compareTo(Point point) {
+    public int compareTo(Point other) {
         double thisBegin = width.getBegin() + length.getBegin() + height.getBegin();
-        double otherBegin = point.getWidth().getBegin() + point.getLength().getBegin() + point.getHeight().getBegin();
+        double otherBegin = other.getWidth().getBegin() + other.getLength().getBegin() + other.getHeight().getBegin();
         if(thisBegin > otherBegin){
             return 1;
         } else if (thisBegin < otherBegin) {
@@ -72,7 +74,7 @@ public class Point implements Comparable<Point> {
     }
     
     @Override
-    protected Point clone() {
+    public Point clone() {
         return new Point(new Line(this.width.getBegin(), this.width.getEnd()), new Line(this.length.getBegin(), this.length.getEnd()), new Line(this.height.getBegin(), this.height.getEnd()));
     }
     

@@ -1,4 +1,8 @@
-package br.com.binpacking.model;
+package br.com.binpacking.domain;
+
+import br.com.binpacking.domain.datatypes.Line;
+import br.com.binpacking.domain.datatypes.Measures;
+import br.com.binpacking.domain.datatypes.Point;
 
 public class Item implements Comparable<Item> {
     
@@ -42,7 +46,7 @@ public class Item implements Comparable<Item> {
     }
 
     public void sortSides(){
-        if(measures.getWidth() > measures.getHeight()){
+        if(measures.getWidth() < measures.getHeight()){
         	if(rotateVerticaly){
         		switchHeightWidth();
         	}
@@ -58,14 +62,30 @@ public class Item implements Comparable<Item> {
     }
 
     @Override
-    public int compareTo(Item item) {   
-        return this.measures.compareTo(item.measures);
+    public int compareTo(Item other) {   
+    	int widthResult = this.getWidth().compareTo(other.getWidth());
+    	if(widthResult != 0){
+    		return widthResult;
+    	}
+    	
+    	int lengthResult = this.getLength().compareTo(other.getLength());
+    	if(lengthResult != 0){
+    		return lengthResult;
+    	}
+    	
+    	int heightResult = this.getHeight().compareTo(other.getHeight());
+    	if(heightResult != 0){
+    		return heightResult;
+    	}
+
+    	return 0;
+//        return this.measures.compareTo(item.measures);
     }
     
     @Override
     protected Item clone() throws CloneNotSupportedException {
-    	Measures meas = new Measures(measures.getWidth(), measures.getLength(), measures.getHeight(), measures.getWeight());
-    	return new Item(meas, this.id, this.rotateVerticaly);
+    	Measures size = new Measures(measures.getWidth(), measures.getLength(), measures.getHeight(), measures.getWeight());
+    	return new Item(size, this.id, this.rotateVerticaly);
     }
     
     @Override
@@ -75,6 +95,10 @@ public class Item implements Comparable<Item> {
     
     public String getId(){
     	return this.id;
+    }
+    
+    public Measures getMeasures(){
+    	return this.measures;
     }
     
     public Double getWidth(){
