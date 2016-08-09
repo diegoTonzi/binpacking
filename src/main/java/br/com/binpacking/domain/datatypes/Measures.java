@@ -23,9 +23,9 @@ public class Measures implements Comparable<Measures>{
 
 	@Override
 	public int compareTo(Measures other) {
-        if(this.getVolume() > other.getVolume()){
+        if(this.volume() > other.volume()){
             return -1;
-        } else if (this.getVolume() < other.getVolume()) {
+        } else if (this.volume() < other.volume()) {
             return 1;
         } else {
             return 0;
@@ -33,10 +33,10 @@ public class Measures implements Comparable<Measures>{
 	}
 	
 	public boolean hasLessMeasures(Measures toCompare){
-		if(this.width < toCompare.getWidth() || 
-				this.length < toCompare.getLength() || 
-				this.height < toCompare.getHeight() ||
-				this.weight < toCompare.getWeight()){
+		if(this.width < toCompare.width() || 
+				this.length < toCompare.length() || 
+				this.height < toCompare.height() ||
+				this.weight < toCompare.weight()){
 			
 			return true;
 		}
@@ -45,10 +45,10 @@ public class Measures implements Comparable<Measures>{
 	}
 	
 	public boolean hasGreaterMeasures(Measures toCompare){
-		if(this.width > toCompare.getWidth() || 
-				this.length > toCompare.getLength() || 
-				this.height > toCompare.getHeight() ||
-				this.weight > toCompare.getWeight()){
+		if(this.width > toCompare.width() || 
+				this.length > toCompare.length() || 
+				this.height > toCompare.height() ||
+				this.weight > toCompare.weight()){
 			
 			return true;
 		}
@@ -58,10 +58,10 @@ public class Measures implements Comparable<Measures>{
 	
 	@Override
 	public String toString() {
-		return "[W: " + this.width + ", L: " + this.length + ", H: " + this.height + ", WG: " + this.weight +"]";
+		return "Measures [W: " + this.width + ", L: " + this.length + ", H: " + this.height + ", WG: " + this.weight +"] ";
 	}
 
-	public Double getWidth() {
+	public Double width() {
 		return width;
 	}
 
@@ -69,7 +69,7 @@ public class Measures implements Comparable<Measures>{
 		this.width = width;
 	}
 
-	public Double getLength() {
+	public Double length() {
 		return length;
 	}
 
@@ -77,7 +77,7 @@ public class Measures implements Comparable<Measures>{
 		this.length = length;
 	}
 
-	public Double getHeight() {
+	public Double height() {
 		return height;
 	}
 
@@ -85,7 +85,7 @@ public class Measures implements Comparable<Measures>{
 		this.height = height;
 	}
 
-	public Double getWeight() {
+	public Double weight() {
 		return weight;
 	}
 
@@ -93,11 +93,11 @@ public class Measures implements Comparable<Measures>{
 		this.weight = weight;
 	}
 
-	public Double getSumOfSides() {
+	public Double perimeter() {
 		return this.height + this.length + this.width;
 	}
 	
-	public Double getVolume() {
+	public Double volume() {
 		return this.height * this.length * this.width;
 	}
 

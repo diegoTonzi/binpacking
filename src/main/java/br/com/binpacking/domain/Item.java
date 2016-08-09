@@ -21,8 +21,8 @@ public class Item implements Comparable<Item> {
     }
     
     public boolean fits(Point point){
-    	if(measures.getWidth() <= point.getWidth().getEnd() - point.getWidth().getBegin()) { 
-            if (measures.getLength() <= point.getLength().getEnd() - point.getLength().getBegin()) {
+    	if(measures.width() <= point.width().end() - point.width().begin()) { 
+            if (measures.length() <= point.length().end() - point.length().begin()) {
             	return true;
             }
     	}    
@@ -34,29 +34,29 @@ public class Item implements Comparable<Item> {
     }
     
     public void switchWidthLength(){
-        this.measures = new Measures(measures.getLength(), measures.getWidth(), measures.getHeight(), measures.getWeight());
+        this.measures = new Measures(measures.length(), measures.width(), measures.height(), measures.weight());
     }
 
     public void switchHeightWidth(){
-        this.measures = new Measures(measures.getHeight(), measures.getLength(), measures.getWidth(), measures.getWeight());
+        this.measures = new Measures(measures.height(), measures.length(), measures.width(), measures.weight());
     }
     
     public void switchHeightLength(){
-        this.measures = new Measures(measures.getWidth(), measures.getHeight(), measures.getLength(), measures.getWeight());
+        this.measures = new Measures(measures.width(), measures.height(), measures.length(), measures.weight());
     }
 
     public void sortSides(){
-        if(measures.getWidth() < measures.getHeight()){
+        if(measures.width() < measures.height()){
         	if(rotateVerticaly){
         		switchHeightWidth();
         	}
         } 
-        if(measures.getLength() > measures.getHeight()){
+        if(measures.length() > measures.height()){
         	if(rotateVerticaly){
         		switchHeightLength();
         	}
         } 
-        if(measures.getLength() > measures.getWidth()){
+        if(measures.length() > measures.width()){
             switchWidthLength();
         } 
     }
@@ -84,7 +84,7 @@ public class Item implements Comparable<Item> {
     
     @Override
     protected Item clone() throws CloneNotSupportedException {
-    	Measures size = new Measures(measures.getWidth(), measures.getLength(), measures.getHeight(), measures.getWeight());
+    	Measures size = new Measures(measures.width(), measures.length(), measures.height(), measures.weight());
     	return new Item(size, this.id, this.rotateVerticaly);
     }
     
@@ -102,19 +102,19 @@ public class Item implements Comparable<Item> {
     }
     
     public Double getWidth(){
-    	return measures.getWidth();
+    	return measures.width();
     }
     
     public Double getLength(){
-    	return measures.getLength();
+    	return measures.length();
     }
 
 	public Double getHeight(){
-    	return measures.getHeight();
+    	return measures.height();
     }
 	
 	public Double getWeight(){
-    	return measures.getWeight();
+    	return measures.weight();
     }
 	
 	public Point getPoint(){

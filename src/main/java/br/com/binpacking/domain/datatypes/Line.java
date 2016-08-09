@@ -24,7 +24,7 @@ public class Line implements Comparable<Line> {
     	return end - begin;
     }
 
-    public Double getBegin() {
+    public Double begin() {
         return begin;
     }
 
@@ -32,7 +32,7 @@ public class Line implements Comparable<Line> {
         this.begin = begin;
     }
 
-    public Double getEnd() {
+    public Double end() {
         return end;
     }
 
@@ -42,7 +42,7 @@ public class Line implements Comparable<Line> {
 
     @Override
     public String toString() {
-        return "(" + begin + ", " + end + ")";
+        return "Line [" + begin + ", " + end + "] ";
     }
 
 }

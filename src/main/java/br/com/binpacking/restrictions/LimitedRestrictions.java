@@ -63,22 +63,22 @@ public class LimitedRestrictions implements Restrictions {
 
 	@Override
 	public Double getMaxWidth() {
-		return maxContainerRestrictions.getWidth();
+		return maxContainerRestrictions.width();
 	}
 
 	@Override
 	public Double getMaxLength() {
-		return maxContainerRestrictions.getLength();
+		return maxContainerRestrictions.length();
 	}
 
 	@Override
 	public Double getMaxHeight() {
-		return maxContainerRestrictions.getHeight();
+		return maxContainerRestrictions.height();
 	}
 
 	@Override
 	public Double getMaxWeight() {
-		return maxContainerRestrictions.getWeight();
+		return maxContainerRestrictions.weight();
 	}
 
 }

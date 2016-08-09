@@ -51,13 +51,13 @@ public class DrawContainer extends JComponent {
 			List<Item> items = new ArrayList<>();
 			items.addAll(container.getItems());
 			
-			g.drawString("Container items: " +  container.getItems().size(), 5 * SCALE, (container.getMeasures().getLength().intValue() + 10) * SCALE);
-			g.drawString("Container sizes: [ Width: " + container.getMeasures().getWidth() + ", Length: " + container.getMeasures().getLength() + ", Height: " + container.getMeasures().getHeight() + " ]", 5 * SCALE, (container.getMeasures().getLength().intValue() + 14) * SCALE);
-			g.drawString("--------------------------------------------------------------------------------------------------------------", 5 * SCALE, (container.getMeasures().getLength().intValue() + 16) * SCALE);
+			g.drawString("Container items: " +  container.getItems().size(), 5 * SCALE, (container.getMeasures().length().intValue() + 10) * SCALE);
+			g.drawString("Container sizes: [ Width: " + container.getMeasures().width() + ", Length: " + container.getMeasures().length() + ", Height: " + container.getMeasures().height() + " ]", 5 * SCALE, (container.getMeasures().length().intValue() + 14) * SCALE);
+			g.drawString("--------------------------------------------------------------------------------------------------------------", 5 * SCALE, (container.getMeasures().length().intValue() + 16) * SCALE);
 			//int count = 20;
 			for (Item item : items) {
 //				Color randomColor = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
-				g.drawRect(item.getPoint().getWidth().getBegin().intValue() * SCALE, item.getPoint().getLength().getBegin().intValue() * SCALE, item.getWidth().intValue() * SCALE, item.getLength().intValue() * SCALE);  
+				g.drawRect(item.getPoint().width().begin().intValue() * SCALE, item.getPoint().length().begin().intValue() * SCALE, item.getWidth().intValue() * SCALE, item.getLength().intValue() * SCALE);  
 				g.setColor(Color.BLACK); 
 //				g.setColor(randomColor); 
 			    //g.fillRect(item.getPoint().getWidth().getBegin().intValue() * SCALE, item.getPoint().getLength().getBegin().intValue() * SCALE, item.getWidth().intValue() * SCALE, item.getLength().intValue() * SCALE);

@@ -14,23 +14,23 @@ public class Point implements Comparable<Point> {
         this.height = height;
     }
 
-    public Line getWidth() {
+    public Line width() {
         return width;
     }
 
-    public Line getLength() {
+    public Line length() {
         return length;
     }
 
-    public Line getHeight() {
+    public Line height() {
         return height;
     }
     
     public boolean isIntersectLineWidth(Point point){
-    	if(this.width.getBegin() >= point.width.getBegin()){
-		    if(this.length.getBegin() < point.length.getEnd()){
-		        if(this.length.getEnd() > point.length.getBegin()){   
-		            if(point.width.getEnd() > this.width.getBegin()){ 
+    	if(this.width.begin() >= point.width.begin()){
+		    if(this.length.begin() < point.length.end()){
+		        if(this.length.end() > point.length.begin()){   
+		            if(point.width.end() > this.width.begin()){ 
 		                return true;
 		            }
 		        }
@@ -40,10 +40,10 @@ public class Point implements Comparable<Point> {
     }
     
     public boolean isIntersectLineLength(Point point){
-    	if(this.length.getBegin() >= point.length.getBegin()){
-		    if(this.width.getBegin() < point.width.getEnd()){
-		        if(this.width.getEnd() > point.width.getBegin()){
-		            if(point.length.getEnd() > this.length.getBegin()){
+    	if(this.length.begin() >= point.length.begin()){
+		    if(this.width.begin() < point.width.end()){
+		        if(this.width.end() > point.width.begin()){
+		            if(point.length.end() > this.length.begin()){
 		                return true;
 		            }
 		        }
@@ -53,17 +53,17 @@ public class Point implements Comparable<Point> {
     }
     
     public boolean isInBaseOfContainer(){
-    	return this.height.getBegin() == 0 ? true : false;
+    	return this.height.begin() == 0 ? true : false;
     }
     
     public boolean isSameHeight(Item item){
-    	return item.getPoint().height.getBegin() == this.height.getBegin();
+    	return item.getPoint().height.begin() == this.height.begin();
     }
  
     @Override
     public int compareTo(Point other) {
-        double thisBegin = width.getBegin() + length.getBegin() + height.getBegin();
-        double otherBegin = other.getWidth().getBegin() + other.getLength().getBegin() + other.getHeight().getBegin();
+        double thisBegin = width.begin() + length.begin() + height.begin();
+        double otherBegin = other.width().begin() + other.length().begin() + other.height().begin();
         if(thisBegin > otherBegin){
             return 1;
         } else if (thisBegin < otherBegin) {
@@ -75,12 +75,12 @@ public class Point implements Comparable<Point> {
     
     @Override
     public Point clone() {
-        return new Point(new Line(this.width.getBegin(), this.width.getEnd()), new Line(this.length.getBegin(), this.length.getEnd()), new Line(this.height.getBegin(), this.height.getEnd()));
+        return new Point(new Line(this.width.begin(), this.width.end()), new Line(this.length.begin(), this.length.end()), new Line(this.height.begin(), this.height.end()));
     }
     
     @Override
     public String toString() {
-        return "Point [W: " + this.width + ", L: " + this.length + ", H: " + this.height + "]";
+        return "Point [W: " + this.width + ", L: " + this.length + ", H: " + this.height + "] ";
     }
 
 }
