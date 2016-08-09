@@ -14,13 +14,13 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
-//			List<Item> items = ItemHelper.getCubeItens(10, 1001);
-//			List<Item> items = ItemHelper.getRandomItens(2000);
-			List<Item> items = ItemHelper.getStaticItems();
+			List<Item> items = ItemHelper.getCubeItens(10, 3001);
+//			List<Item> items = ItemHelper.getRandomItens(3000);
+//			List<Item> items = ItemHelper.getStaticItems();
 			Restrictions restrictions = getLimitedRestriction();
 			new Packer.Pack(items)
 					.use(restrictions)
-//					.enableLog()
+					.enableLog()
 					.enableGraphical()
 					.start();
 			

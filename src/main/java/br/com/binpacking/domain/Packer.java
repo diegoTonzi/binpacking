@@ -23,10 +23,10 @@ public class Packer {
 	private Calendar endPacking;
 
 	public Packer(Pack pack) {
-		this.items = pack.getItems();
-		this.restrictions = pack.getRestrictions();
-		this.graphicalResult = pack.isGraphicalEnable();
-		this.logResult = pack.isLogEnable();
+		items = pack.getItems();
+		restrictions = pack.getRestrictions();
+		graphicalResult = pack.isGraphicalEnable();
+		logResult = pack.isLogEnable();
 		
 		checkItemRestrictions();
 

@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -46,16 +48,18 @@ public class DrawContainer extends JComponent {
 		super.paintComponent(g);
 	
 		if(container != null && container.getItems() != null){
+			List<Item> items = new ArrayList<>();
+			items.addAll(container.getItems());
 			
 			g.drawString("Container items: " +  container.getItems().size(), 5 * SCALE, (container.getMeasures().getLength().intValue() + 10) * SCALE);
 			g.drawString("Container sizes: [ Width: " + container.getMeasures().getWidth() + ", Length: " + container.getMeasures().getLength() + ", Height: " + container.getMeasures().getHeight() + " ]", 5 * SCALE, (container.getMeasures().getLength().intValue() + 14) * SCALE);
 			g.drawString("--------------------------------------------------------------------------------------------------------------", 5 * SCALE, (container.getMeasures().getLength().intValue() + 16) * SCALE);
 			//int count = 20;
-			for (Item item : container.getItems()) {
-				//Color randomColor = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+			for (Item item : items) {
+//				Color randomColor = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
 				g.drawRect(item.getPoint().getWidth().getBegin().intValue() * SCALE, item.getPoint().getLength().getBegin().intValue() * SCALE, item.getWidth().intValue() * SCALE, item.getLength().intValue() * SCALE);  
 				g.setColor(Color.BLACK); 
-				//g.setColor(randomColor); 
+//				g.setColor(randomColor); 
 			    //g.fillRect(item.getPoint().getWidth().getBegin().intValue() * SCALE, item.getPoint().getLength().getBegin().intValue() * SCALE, item.getWidth().intValue() * SCALE, item.getLength().intValue() * SCALE);
 				
 				//g.drawString(item.toString(), 5 * SCALE, (container.getLength().intValue() + count) * SCALE);

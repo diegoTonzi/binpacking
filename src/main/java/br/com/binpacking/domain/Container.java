@@ -17,7 +17,7 @@ public class Container {
 	private List<Point> entryPoints;
 
 	private Measures measuresFake;
-	private Double volumeFake;
+	private Double sumOfSidesFake;
 
 	public Container(Restrictions restrictions) {
 		this.restrictions = restrictions;
@@ -42,22 +42,13 @@ public class Container {
 		
 		entryPoints.remove(index.intValue());
 		createEntryPoints(item, reference);
-		
 		updateEntryPoints();
-		
 		Collections.sort(entryPoints);
-		
-		for (Point point : entryPoints) {
-			System.out.println(point);
-		}
-		
-		System.out.println("/n/n------------------------------------------------------------------/n/n");
-
 		return true;
 	}
 	
 	private Integer getBestEntryPoint(Item item) {
-		this.volumeFake = 0D;
+		this.sumOfSidesFake = 0D;
 		Integer index = calculateBestEntryPoint(item);
 
 		item.switchWidthLength();
@@ -80,8 +71,8 @@ public class Container {
 			if (item.fits(point)) {
 				updateMeasuresFake(item, point);
 				if (!restrictions.isMaxContainerRestrictionsViolated(this.measuresFake)) {
-					if (measuresFake.getVolume() < this.volumeFake || this.volumeFake == 0) {
-						this.volumeFake = measuresFake.getVolume();
+					if (measuresFake.getSumOfSides() < this.sumOfSidesFake || this.sumOfSidesFake == 0) {
+						this.sumOfSidesFake = measuresFake.getSumOfSides();
 						index = i;
 					}
 				}
@@ -90,7 +81,7 @@ public class Container {
 
 		return index;
 	}
-
+	
 	private void updateMeasuresFake(Item item, Point point) {
 		if (point.getWidth().getBegin() + item.getWidth() > measures.getWidth()) {
 			measuresFake.setWidth(point.getWidth().getBegin() + item.getWidth());
@@ -167,7 +158,7 @@ public class Container {
 		Line h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxHeight());
 		Point point = new Point(w, l, h);
 		entryPoints.add(point);
-
+		
 		w = new Line(item.getPoint().getWidth().getBegin(), reference.getWidth().getEnd());
 		l = new Line(item.getPoint().getLength().getEnd(), reference.getLength().getEnd());
 		h = new Line(item.getPoint().getHeight().getBegin(), restrictions.getMaxHeight());
